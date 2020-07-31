@@ -2,7 +2,7 @@
   <v-layout column>
 
   <v-row>
-      <v-col  cols="4">
+      <!-- <v-col  cols="4">
           <v-card
             color="secondary"
             dark
@@ -12,7 +12,7 @@
               <v-btn text>{{dl}}</v-btn>
             </v-card-actions>
           </v-card>
-        </v-col>
+        </v-col> -->
       </v-row>
  
   

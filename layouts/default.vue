@@ -1,7 +1,7 @@
 <template>
 <v-app>
 <v-navigation-drawer 
-v-model="drawer"  :mini-variant="miniVariant" :clipped="clipped" fixed app class="primary">
+v-model="drawer"  :mini-variant="miniVariant" :clipped="clipped" fixed app class="secondary">
 <v-list>
 <v-list-item v-for="(item, i) in menus" :key="i" :to="item.to" router exact>
 <v-list-item-action>
@@ -52,10 +52,12 @@ fixed:false,
 drawer: true,
 menus : [
   { icon: 'mdi-apps', title: 'Home',to: '/' },
+  { icon: 'mdi-apps', title: 'Job',to: '/job' },
   { icon: 'mdi-apps', title: 'Users',to: '/user' },
-  { icon: 'mdi-apps', title: 'Role',to: '/role' },
-  { icon: 'mdi-apps', title: 'Status',to: '/status' },
+  { icon: 'mdi-apps', title: 'Survey',to: '/survey' },
+  { icon: 'mdi-apps', title: 'Department',to: '/department' },
   { icon: 'mdi-apps', title: 'District',to: '/district' },
+  { icon: 'mdi-apps', title: 'Role',to: '/role' },
 
 ],      
 

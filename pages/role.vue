@@ -2,7 +2,6 @@
   <v-data-table
     :headers="headers"
     :items="data"
-    sort-by="role"
     class="elevation-1"
   >
     <template v-slot:top>
@@ -15,9 +14,9 @@
         ></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <!-- <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-          </template> -->
+          <template v-slot:activator="{ on }">
+            <v-btn color="primary" dark class="mb-2" v-on="on">Add Role</v-btn>
+          </template>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -69,11 +68,11 @@
     data: () => ({
       dialog: false,
       headers: [
-        {
-          text: 'id',
-          sortable: true,
-          value: 'id',
-        },
+        // {
+        //   text: 'id',
+        //   sortable: true,
+        //   value: 'id',
+        // },
         {
           text: 'role',
           sortable: true,
@@ -111,12 +110,7 @@
     methods: {
       initialize () {
 
-      this.$axios.get('role').then(res => {
-
-          this.data = res.data
-        console.log(res.data)  
-
-        });
+      this.$axios.get('role').then(res => this.data = res.data);
 
       },
 

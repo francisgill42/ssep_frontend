@@ -73,34 +73,18 @@
     data: () => ({
       dialog: false,
       headers: [
-        {
-          text: 'id',
-          sortable: true,
-          value: 'id',
-        },
-        {
-          text: 'status',
-          sortable: true,
-          value: 'status',
-        },
-        // {
-        //   text: 'keyword',
-        //   sortable: false,
-        //   value: 'keyword',
-        // },
+     
+        { text: 'status',sortable: false,value: 'status' },
+        { text: 'keyword',sortable: false,value: 'keyword' },
         { text: 'Actions', value: 'actions', sortable: false },
 
       ],
       data: [],
       editedIndex: -1,
-      editedItem: {
-       status:'',
-       keyword:'',
-      },
-      defaultItem: {
-       status:'',
-       keyword:'',
-      },
+      editedItem: { status:'', keyword:'' },
+
+      defaultItem: { status:'', keyword:'' },
+      
     }),
 
     computed: {
@@ -157,14 +141,16 @@
        //   Object.assign(this.data[this.editedIndex], this.editedItem)
 
             this.$axios.put('status/' + this.editedItem.id, {
-            status: this.editedItem.status
+            status: this.editedItem.status,
+            keyword: this.editedItem.keyword
             })
             .then(res => {
 
             const index = this.data.findIndex(item => item.id == this.editedItem.id)
             this.data.splice(index, 1,{
             id:this.editedItem.id,
-            status:this.editedItem.status
+            status:this.editedItem.status,
+            keyword: this.editedItem.keyword
             });
    
               this.close()
@@ -175,10 +161,12 @@
 
         } else {
           
-              this.$axios.post('status',{status:this.editedItem.status})
+              this.$axios.post('status',{
+                 status: this.editedItem.status,
+                 keyword: this.editedItem.keyword
+            })
               .then((res) => {
-            
-              this.data.push(res.data.data)
+              this.data.unshift(res.data.data)
               this.close()
               
             
