@@ -3,8 +3,7 @@
 <v-card style="max-height:500px" class="d-flex flex-column bordered secondary" 
 >
 <v-toolbar flat class="primary mb-1" dark><strong>Revisions</strong></v-toolbar>
-<v-card-title>
-</v-card-title>
+
 <v-card-text class="flex-grow-1 overflow-y-auto">
     <template>
     <div v-for="(r, i) in revisions" :key="i"
@@ -12,18 +11,23 @@
     >
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
+       
       <v-chip
       :color="r.me ? 'primary darken-1' : 'secondary darken-1'" dark style="height:auto;white-space: normal;"
       class="pa-4 mb-2"
       v-on="on"
       >
-      {{r.name}}
-      {{ r.msg }}
-
-      <sub class="ml-2" style="font-size: 0.7rem;">{{ r.created_at }}</sub>
+      
+      <table>
+        <tr>
+          <td colspan="2"><p style="font-size: 1rem; position:relative;">{{ r.msg }}</p></td>
+        </tr>
+        <tr>
+          <td>{{ r.name }}</td>
+          <td class="text-right">{{ r.created_at }}</td>
+        </tr>
+      </table>
       </v-chip>
-      <br/>
-
       </template>
 
   </v-menu>
