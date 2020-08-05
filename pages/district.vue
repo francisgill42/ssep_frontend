@@ -2,6 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="data"
+    :search="search"
     class="elevation-1"
   >
     <template v-slot:top>
@@ -12,7 +13,16 @@
           inset
           vertical
         ></v-divider>
-        <v-spacer></v-spacer>
+          <v-text-field
+        v-model="search"
+        label="Search"
+        hide-details
+      ></v-text-field>
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">Add District</v-btn>
@@ -66,6 +76,7 @@
 <script>
   export default {
     data: () => ({
+      search:'',
       dialog: false,
       headers: [
         {

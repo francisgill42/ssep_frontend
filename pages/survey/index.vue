@@ -2,7 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="data"
-    sort-by="role"
+    :search="search"
     class="elevation-1"
   >
     <template v-slot:top>

@@ -30,7 +30,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  // plugins: ['~/plugins/api.js'],
+  // plugins: ['~/plugins/plugin.js'],
   /*
   ** Nuxt.js dev-modules
   */
@@ -45,10 +45,7 @@ module.exports = {
   '@nuxtjs/auth',
   '@nuxtjs/dotenv'
 ],
-axios: {
-        //baseURL: 'http://localhost/case-notification/public/api/'
-        baseURL: process.env.BaseUrl
-},
+axios: { baseURL: process.env.BaseUrl },
 
 auth: {
 
@@ -62,7 +59,6 @@ auth: {
      
     }
   },
- 
   redirect: {
     login: '/login',
     logout: '/login',

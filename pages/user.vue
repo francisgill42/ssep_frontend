@@ -2,7 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="data"
-    sort-by="user"
+    :search="search"
     class="elevation-1"
   >
     <template v-slot:top>
@@ -13,7 +13,14 @@
           inset
           vertical
         ></v-divider>
-        <v-spacer></v-spacer>
+        <v-text-field   
+        label="Search"
+        hide-details v-model="search"></v-text-field>
+         <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
         <v-dialog v-model="dialog" max-width="900px">
           <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">Add User</v-btn>
@@ -41,6 +48,7 @@
                         item-value="id"
                         label="Role"
                         ></v-select>
+                        <div style="color:red;" v-if="errors.role_id">{{errors.role_id[0]}}</div>
                   </v-col>
 
 
@@ -67,23 +75,29 @@
 
                   <v-col cols="6" sm="6" md="6">
                     <v-text-field v-model="editedItem.name" label="name"></v-text-field>
+                    <div style="color:red;" v-if="errors.name">{{errors.name[0]}}</div>
                   </v-col>
                  
                   <v-col cols="6" sm="6" md="6">
                     <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
+                    <div style="color:red;" v-if="errors.email">{{errors.email[0]}}</div>
                   </v-col>
 
                    <v-col v-if="editedIndex ==  -1" cols="12" sm="12" md="12">
                     <v-text-field type="password" v-model="editedItem.password" label="Password"></v-text-field>
+                    <div style="color:red;" v-if="errors.password">{{errors.password[0]}}</div>
                   </v-col>
                   
                 
                   <v-col cols="6" sm="6" md="6">
+
                     <v-text-field v-model="editedItem.mobile_no" label="Mobile No"></v-text-field>
+                    <div style="color:red;" v-if="errors.mobile_no">{{errors.mobile_no[0]}}</div>
                   </v-col>
                   
                   <v-col cols="6" sm="6" md="6">
                     <v-text-field v-model="editedItem.cnic" label="CNIC"></v-text-field>
+                    <div style="color:red;" v-if="errors.cnic">{{errors.cnic[0]}}</div>
                   </v-col>
                 </v-row>
               </v-container>
@@ -156,6 +170,7 @@
     data: () => ({
       dialog: false,
       isActive: true,
+      search:'',
       headers: [
         {
           text: 'id',
@@ -227,6 +242,7 @@
       district_id: "",
       change_password: ""
       },
+      errors:[],
     }),
 
     computed: {
@@ -325,8 +341,18 @@
         } else {
 
               this.$axios.post('user',payload).then((res) => {
-                    this.data.push(res.data.data)
-                    this.close()
+                   
+                    if(res.data.success){
+                      this.data.push(res.data.data)
+                      console.log(res.data);
+                      this.close()
+                      }
+                      else{
+                      this.errors = res.data.errors
+                        
+                      }
+
+
             });
         }
      
