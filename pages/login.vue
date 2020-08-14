@@ -13,11 +13,11 @@ Close
 <v-card class="elevation-10 pa-3">
 <v-card-text>
 <div class="layout column align-center">
-<!-- <img src="logo-connect.png" alt="Vue Material Admin" width="150" height="150"> -->
-<h1 class="flex my-2 secondary--text">SSEP LOGIN</h1>
+<img src="energy-logo.png" alt="ssep login">
+<!-- <h1 class="flex my-2 secondary--text">SSEP LOGIN</h1> -->
 </div>
 <v-form>
-<v-text-field label="Email / User" type="text"
+<v-text-field label="Email" type="text"
 v-model="email"></v-text-field>
 <v-text-field autocomplete name="password" label="Password" id="password" type="password"
 v-model="password"></v-text-field>

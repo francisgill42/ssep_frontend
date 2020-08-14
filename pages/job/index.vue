@@ -2,20 +2,31 @@
   <v-data-table
     :headers="headers"
     :items="data"
-    sort-by="role"
+    :search="search"    
     class="elevation-1"
   >
+  
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>Jobs</v-toolbar-title>
+        <v-toolbar-title>Jobs
+          
+        </v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
-        <v-spacer></v-spacer>
+         <v-text-field
+        v-model="search"
+        label="Search"
+        hide-details
+      ></v-text-field>
+       <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
             <v-btn to="/job/create" color="primary" dark class="mb-2">Add Job</v-btn>
-
           <v-dialog v-model="dialog" max-width="900px">
           <v-card>
             <v-form ref="form" lazy-validation>
@@ -165,25 +176,54 @@
           </v-card> 
            
         </v-dialog>
+
+        <v-dialog v-model="dialog1" max-width="500px">
+          <v-card>
+            <v-form ref="form" lazy-validation>
+          
+            <v-card-text>
+                
+              <v-container>
+                <v-row>
+
+                  
+                    <v-col>
+                    <v-select
+                        :rules="Rules"  
+                        v-model="editedItem.admin"
+                        :items="admins"
+                        item-text="name"
+                        item-value="id"
+                        label="Admin"
+                        ></v-select>
+                  </v-col>
+
+                </v-row>
+              </v-container>
+            
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="share">Save</v-btn>
+            </v-card-actions>
+              </v-form>
+          </v-card> 
+           
+        </v-dialog>
       </v-toolbar>
     </template>
 
-    <template v-slot:item.attachment="{ item }">
-         <v-dialog v-model="dialog1" max-width="900px">
-          
 
-          <template v-slot:activator="{ on }">
-             <div class="pa-5">
-              <v-btn @click="img_holder = item.attachment" color="primary"  class="mb-2" v-on="on"> Open Image</v-btn>
-             </div>
-          </template>
-          
-          <v-img height="auto" width="100%" :src="img_holder"></v-img>
-        </v-dialog> 
-     
-    </template>
-     
-    <template v-slot:item.actions="{ item }">
+   <template v-slot:item.actions="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="shareItem(item)"
+      >
+        mdi-share-variant
+      </v-icon>
+
       <v-icon
         small
         class="mr-2"
@@ -216,6 +256,7 @@
 <script>
   export default {
     data: () => ({
+      search:'',
       img_holder:'',
       dialog: false,
       dialog1: false,
@@ -244,7 +285,7 @@
         {
           text: 'Status',
           sortable: true,
-          value: 'status.status',
+          value: 'status.keyword',
         },
 
           {
@@ -266,6 +307,7 @@
         { text: 'Actions', value: 'actions', sortable: false },
 
       ],
+      admins:[],
       data: [],
       districts: [],
       users:[],
@@ -278,6 +320,7 @@
       editedItem: {    
       change_attachment:'',
        assigned_to:'',
+       admin:'',
        job_type:0,   
        task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachment:'', 
        _from: new Date().toISOString().substr(0, 10),
@@ -285,6 +328,7 @@
       },
 
       defaultItem: {
+        admin:'',
         job_type:0,
        assigned_to:'',    
        task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachment:'',_from:'',_to:''
@@ -313,21 +357,37 @@
     },
 
     created () {
-
       this.initialize()
     },
 
     methods: {
 
+      share () {
+
+         console.log(this.editedItem.id,this.$auth.user);
+
+          // this.$axios.get('send_to_pmu/' + this.editedItem.id)
+          //   .then(res => {
+          
+          //     this.dialog1 = false;
+          //     this.$refs.form.reset()
+            
+          //   }).catch(error => console.log(error));
+
+      },
+
       initialize () {
 
       var job_slug = '';
       
-      if(this.$auth.user.master){
-        job_slug = 'job';
+      if(this.$auth.user.master == 1){
+        job_slug = this.$auth.user.id == 1 ? 'job' : 'jobs_for_pmu';
       }
       else if (this.$auth.user.role_id == 1){
         job_slug = 'jobs_by_created_user/' + this.$auth.user.id;
+      }
+       else if (this.$auth.user.role_id == 6){
+        job_slug = 'jobs_for_client';
       }
       else{
         job_slug = 'jobs_by_assigned_user/' + this.$auth.user.id;
@@ -335,6 +395,8 @@
       this.$axios.get(job_slug).then(res => this.data = res.data.data);
 
       this.$axios.get('user').then(res => this.users = res.data.data.filter((v) => v.master != 1 && v.id != this.$auth.user.id));
+
+      this.$axios.get('user').then(res => this.admins = res.data.data.filter((v) => v.master == 1 && v.id != 1 || v.role_id == 6));
 
       this.$axios.get('district').then(res => this.districts = res.data);
 
@@ -350,9 +412,18 @@
         this.editedItem.attachment = e.target.files[0] || ''; 
         },
 
-      viewItem (item) {
+        
+
+      shareItem (item) {
+        this.editedItem.id = item.id;
+        this.dialog1 = true;
+
+      },
+
+       viewItem (item) {
         this.$router.push(`/job/${item.id}`);
       },
+
       editItem (item) {
         this.editedIndex = this.data.indexOf(item)
         this.editedItem = Object.assign({}, item)

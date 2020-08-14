@@ -1,5 +1,5 @@
 <template>
-          <v-card flat>
+          <v-card flat outlined>
             <v-form ref="form" lazy-validation>
             <v-card-title>
               <span class="headline">New Job</span>
@@ -27,6 +27,7 @@
 
                      <v-col cols="4" sm="4" md="4">
                           <v-select
+                        @change="get_job_type(editedItem.job_type)"
                         :rules="Rules"  
                         v-model="editedItem.job_type"
                         :items="[{id:1,job_type:'Atl'},{id:2,job_type:'Btl'}]"
@@ -134,7 +135,7 @@
                   </v-col>
 
                   <v-col>
-                    <v-btn class="primary" text @click="save">Save</v-btn>
+                    <v-btn class="primary" text @click="save" :loading="loading">Save</v-btn>
                   </v-col>
                
                 
@@ -149,6 +150,7 @@
 <script>
   export default {
     data: () => ({
+      loading : false,
       menu: false,
       menu1: false,
       Rules : [ v => !!v || 'This field is required'],
@@ -200,6 +202,9 @@
 
       },
 
+        get_job_type(v){
+          v == 1 ? this.editedItem.district_id = '' : this.editedItem.department_id = ''
+        },
         onPick_attachment () { 
         this.$refs.attachmentInput.click() 
         },
@@ -209,6 +214,8 @@
         },
   
       save () {
+
+
           
         let payload = new FormData();
             payload.append('job_type',this.editedItem.job_type);
@@ -225,9 +232,13 @@
             payload.append('brief',this.editedItem.brief);
 
             if(this.$refs.form.validate()){
+
+              this.loading = true;
           
-             this.$axios.post('job',payload)
-              .then((res) => this.$router.push('/job'));
+             this.$axios.post('job',payload).then((res) => {
+               this.$router.push('/job');
+               this.loading = false;
+             });
         }
      
       },

@@ -1,32 +1,40 @@
 <template>
-  <v-layout column>
-
+<div>
   <v-row>
-      <!-- <v-col  cols="4">
-          <v-card
-            color="secondary"
-            dark
-          >
-            <v-card-title class="headline">Doctors</v-card-title>
-            <v-card-actions>
-              <v-btn text>{{dl}}</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col> -->
-      </v-row>
- 
-  
-  </v-layout>
+    <v-col> 
+      <TotalJobsCard /> 
+    </v-col>
+    
+    <v-col> 
+      <BtlJob /> 
+    </v-col>
+    
+    <v-col> 
+      <AtlJob /> 
+    </v-col>
+  </v-row>
+
+  <v-row> 
+    <v-col>
+      <LattestJobs />
+    </v-col>
+  </v-row>  
+</div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+
+import TotalJobsCard from '~/components/JobsCard.vue'
+import AtlJob from '~/components/AtlJob.vue'
+import BtlJob from '~/components/BtlJob.vue'
+import LattestJobs from '~/components/LattestJobs.vue'
 
 export default {
   components: {
-    Logo,
-    VuetifyLogo
+    TotalJobsCard,
+    AtlJob,
+    BtlJob,
+    LattestJobs
   },
   data (){
     return {

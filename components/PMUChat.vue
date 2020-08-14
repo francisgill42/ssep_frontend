@@ -1,10 +1,10 @@
 <template>
 <div>
-<v-card v-if="!isPMU" style="max-height:500px" class="d-flex flex-column bordered" 
+<v-card style="max-height:500px" class="d-flex flex-column bordered" 
 >
-<v-toolbar flat class="primary mb-1" dark><strong>Revisions with User</strong>
+<v-toolbar flat class="primary mb-1" dark><strong>Revisions with PMU</strong>
 <v-spacer></v-spacer>
-<AddRevision v-if="me.role_id == 1"
+<AddRevisionPMU 
   :revision_title="'Send Response'"
  :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />  
 
@@ -19,14 +19,14 @@
       <template v-slot:activator="{ on }">
        
       <v-chip
-      :color="r.me ? 'primary lighten-1' : 'secondary lighten-2'" dark style="height:auto;white-space: normal;"
-      class="pa-3 mb-2"
+      :color="r.me ? 'primary lighten-1' : 'secondary lighten-1'" dark style="height:auto;white-space: normal;"
+      class="pa-4 mb-2"
       v-on="on"
       >
       
       <table>
         <tr> 
-          <td colspan="2"><p style="font-size: 0.9rem; position:relative;">{{r.msg}}</p></td>
+          <td colspan="2"><p style="font-size: 1rem; position:relative;">{{r.msg}}</p></td>
         </tr>
      
         <tr>
@@ -50,15 +50,14 @@
 
 
 <script>
-import AddRevision from '@/components/AddRevision';
+import AddRevisionPMU from '@/components/AddRevisionPMU';
 
 export default {
 
-components : { AddRevision : AddRevision },
+components : { AddRevisionPMU },
 
-props: ['job_id','r_id','rev','item'],
+props: ['job_id','r_id','item'],
 data: () => ({
-isPMU:false,
 admin:false,  
 revisions_with_user : [],
 msg : '',
@@ -69,9 +68,8 @@ me : {}
 }),
 async created () {  
   
-    this.$nuxt.$on('revision', (v) => {
+    this.$nuxt.$on('revision_pmu', (v) => {
     
-      console.log('using emit');
 
        var payload = {
 
@@ -96,8 +94,6 @@ async created () {
  watch: {
     rev: function (v) {
 
-      console.log(v);
-     
       var payload = {
 
         name : v.sender.name,
@@ -117,18 +113,17 @@ methods : {
 
       get_chat (slug) {
 
-        this.isPMU = this.$auth.user.master ? true : false ;
+          console.log(this.$auth.user.id);
 
         var payload = { 
           s_id : this.$auth.user.id, 
-          r_id : this.$auth.user.id == this.item.created_by  ? this.item.assigned_to :  this.item.created_by 
+          r_id : this.$auth.user.master ? this.item.created_by : 5 
           };
 
-        
-        this.$axios.post('revision/' + this.job_id ,payload)
-        .then(res => {
 
-          console.log(res.data.data);
+        
+        this.$axios.post('revision/' + this.job_id , payload)
+        .then(res => {
 
           res.data.data.map((v => {
 

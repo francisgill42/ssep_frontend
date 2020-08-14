@@ -21,7 +21,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#008b09' },
   /*
   ** Global CSS
   */
@@ -82,7 +82,7 @@ router: {
         light: {
           primary: colors.grey.darken1,
           accent: '#F9F8F4',
-          secondary: colors.blue.lighten1,
+          secondary: '#008b09',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

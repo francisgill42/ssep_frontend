@@ -1,20 +1,26 @@
 <template>
 <v-app>
 <v-navigation-drawer 
-v-model="drawer"  :mini-variant="miniVariant" :clipped="clipped" fixed app class="secondary">
+v-model="drawer" :clipped="clipped" fixed app>
 <v-list>
+<v-list-item>
+<v-list-item-content>
+<img src="energy-logo.png" alt="ssep login">
+</v-list-item-content>
+</v-list-item>
+
 <v-list-item v-for="(item, i) in menus" :key="i" :to="item.to" router exact>
 <v-list-item-action>
-<v-icon class="white--text">{{ item.icon }}</v-icon>
+<v-icon style="border-radius:50%; padding:7px;" class="grey white--text">{{ item.icon }}</v-icon>
 </v-list-item-action>
 <v-list-item-content>
-<v-list-item-title class="white--text"  v-text="item.title"/>
+<v-list-item-title  v-text="item.title"/>
 </v-list-item-content>
 </v-list-item>
 </v-list>
 </v-navigation-drawer>
 
-<v-app-bar :clipped-left="clipped" fixed app class="secondary">
+<v-app-bar app class="secondary">
 <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="white--text"/>
 <!-- {{title}} -->
 <span class="white--text" v-if="this.$auth.user" > Welcome, <b>{{this.$auth.user.name}}</b></span>
@@ -52,12 +58,12 @@ fixed:false,
 drawer: true,
 menus : [
   { icon: 'mdi-apps', title: 'Home',to: '/' },
-  { icon: 'mdi-apps', title: 'Job',to: '/job' },
-  { icon: 'mdi-apps', title: 'Users',to: '/user' },
-  { icon: 'mdi-apps', title: 'Survey',to: '/survey' },
-  { icon: 'mdi-apps', title: 'Department',to: '/department' },
-  { icon: 'mdi-apps', title: 'District',to: '/district' },
-  { icon: 'mdi-apps', title: 'Role',to: '/role' },
+  { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
+  { icon: 'mdi-account', title: 'Users',to: '/user' },
+  { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
+  { icon: 'mdi-codepen', title: 'Department',to: '/department' },
+  { icon: 'mdi-image-area', title: 'District',to: '/district' },
+  { icon: 'mdi-briefcase-check', title: 'Role',to: '/role' },
 
 ],      
 
@@ -79,3 +85,12 @@ async logout() {
 }
 }
 </script>
+
+<style>
+.grad {
+  background-image: linear-gradient(to bottom right, #008b09, grey);
+}
+/* .grad-opp {
+  background-image: linear-gradient(to bottom right, white, white);
+} */
+</style>
