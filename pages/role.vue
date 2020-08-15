@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
+    :search="search"
     :items="data"
     class="elevation-1"
   >
@@ -12,10 +13,19 @@
           inset
           vertical
         ></v-divider>
-        <v-spacer></v-spacer>
+          <v-text-field
+        v-model="search"
+        label="Search"
+        hide-details
+      ></v-text-field>
+       <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Add Role</v-btn>
+            <v-btn small dark class="secondary lighten-2 mb-2" v-on="on">Add Role</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -35,8 +45,8 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+              <v-btn small class="primary" text @click="close">Cancel</v-btn>
+              <v-btn small class="secondary lighten-2" text @click="save">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -58,7 +68,7 @@
       </v-icon> -->
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
+      <v-btn small color="primary" @click="initialize">Reset</v-btn>
     </template>
   </v-data-table>
 </template>
@@ -67,6 +77,7 @@
   export default {
     data: () => ({
       dialog: false,
+      search:'',
       headers: [
         // {
         //   text: 'id',

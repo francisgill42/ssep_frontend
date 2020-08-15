@@ -14,7 +14,7 @@
         class="grey--text"
         color="white"
       >
-        {{atl_count}}
+        {{count}}
       </v-list-item-avatar>
     </v-list-item>
 
@@ -29,11 +29,15 @@ export default {
 
 
 data: () => ({
-atl_count:0
+count:''
 }),
 async created () {  
 
-    this.atl_count = await this.$axios.get('job').then(res => this.count = res.data.data.filter(v => v.job_type == 1).length);
+  await this.$axios.get('get_job_count/' + 1).then(res => {
+
+       this.count = res.data < 10 ? '0' + res.data : res.data;
+
+    });
 },
 methods : {
 

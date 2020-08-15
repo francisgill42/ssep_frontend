@@ -8,7 +8,19 @@
     :items="data"
     :items-per-page="5"
     class="elevation-2"
-  ></v-data-table>
+  >
+
+  <template v-slot:item.status.keyword="{ item }">
+    <v-chip dark small :class="status_class(item.status.id)">
+      {{item.status.keyword}} 
+    </v-chip>
+    <v-chip v-if="item.status.id == 1 && me.role_id != 1" small color="secondary"> New </v-chip>
+
+  </template>
+
+  
+  </v-data-table>
+  
 
 </div>
 </template>
@@ -68,6 +80,33 @@
 
     created () {
         this.$axios.get('job').then(res => this.data = res.data.data);
+
+        this.me = this.$auth.user;
+
+      
+    },
+    methods : {
+        status_class(val) {
+  
+        if(val == 1){
+          return 'blue'
+        }
+        else if (val == 2){
+          return 'success'
+        }
+        else if (val == 3){
+          return 'orange'
+        }
+        else if (val == 8){
+          return 'purple'
+        }
+         else if (val == 9){
+          return 'secondary'
+        }
+        else{
+          return 'red'
+        }
+      },
     }
   }
 </script>

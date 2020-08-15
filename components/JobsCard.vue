@@ -15,7 +15,7 @@
         class="grey--text"
         color="white"
       >
-        {{totalcount}}
+      {{count}}
       </v-list-item-avatar>
     </v-list-item>
 
@@ -26,25 +26,20 @@
 
 <script>
 
-const gradients = [
-    ['#222'],
-    ['#42b3f4'],
-    ['red', 'orange', 'yellow'],
-    ['purple', 'violet'],
-    ['#00c6ff', '#F0F', '#FF0'],
-    ['#f72047', '#ffd200', '#1feaea'],
-  ];
-
 export default {
 
 
 data: () => ({
-totalcount:0,
-gradient: gradients[5],
+count:'',
 }),
 async created () {  
 
-    this.totalcount = await this.$axios.get('job').then(res => this.count = res.data.data.length);
+
+  await this.$axios.get('get_job_count').then(res => {
+
+       this.count = res.data < 10 ? '0' + res.data : res.data;
+
+    });
 },
 methods : {
 

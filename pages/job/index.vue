@@ -26,7 +26,7 @@
           inset
           vertical
         ></v-divider>
-            <v-btn to="/job/create" color="primary" dark class="mb-2">Add Job</v-btn>
+            <v-btn small v-if="me.role_id == 1 || me.role_id == 2" to="/job/create" dark class="secondary lighten-2 mb-2">Add Job</v-btn>
           <v-dialog v-model="dialog" max-width="900px">
           <v-card>
             <v-form ref="form" lazy-validation>
@@ -169,8 +169,8 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+              <v-btn class="primary" text @click="close">Cancel</v-btn>
+              <v-btn class="secondary lighten-1" text @click="save">Save</v-btn>
             </v-card-actions>
               </v-form>
           </v-card> 
@@ -185,8 +185,6 @@
                 
               <v-container>
                 <v-row>
-
-                  
                     <v-col>
                     <v-select
                         :rules="Rules"  
@@ -205,7 +203,8 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="share">Save</v-btn>
+                 <v-btn class="primary" text @click="dialog1 = false">Cancel</v-btn>
+              <v-btn class="secondary lighten-1" text @click="share">Save</v-btn>
             </v-card-actions>
               </v-form>
           </v-card> 
@@ -214,42 +213,66 @@
       </v-toolbar>
     </template>
 
+  
+    <template v-slot:no-data>
+      <v-btn small color="primary" @click="initialize">Reset</v-btn>
+    </template>
 
-   <template v-slot:item.actions="{ item }">
-      <v-icon
+     <template v-slot:item.status.keyword="{ item }">
+    <v-chip  dark small :class="status_class(item.status.id)">
+      {{item.status.keyword}} 
+      </v-chip>
+      <v-chip v-if="item.status.id == 1 && me.role_id != 1" small color="secondary"> New </v-chip>
+  </template>
+
+        <template v-slot:item.actions="{ item }">
+
+        <v-icon
+        v-if="me.role_id == 1 || me.role_id == 2 || me.role_id == 3"
         small
         class="mr-2"
         @click="shareItem(item)"
-      >
+        >
         mdi-share-variant
-      </v-icon>
+        </v-icon>
 
-      <v-icon
+   <!-- 1.	Team Head ===> 7
+            create, view, edit, share, delete and view logs
+
+            2.	Team Sub-Head ===> 1
+
+            create, view, edit, share,
+
+            3.	User ==> 2
+            view, edit and share
+
+            4. Sub-Users ===> 3
+            view, edit -->
+        <v-icon
         small
         class="mr-2"
         @click="viewItem(item)"
-      >
+        >
         mdi-eye
-      </v-icon>
+        </v-icon>
 
-       <v-icon
+        <v-icon
+        v-if="me.role_id == 1 || me.role_id == 2 || me.role_id == 3"
         small
         class="mr-2"
         @click="editItem(item)"
-      >
+        >
         mdi-pencil
-      </v-icon>
+        </v-icon>
 
-      <v-icon
+        <v-icon
+        v-if="me.role_id == 1"
         small
         @click="deleteItem(item)"
-      >
+        >
         mdi-delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
-    </template>
+        </v-icon>
+        </template>
   </v-data-table>
 </template>
 
@@ -304,7 +327,7 @@
           sortable: true,
           value: 'department.department',
         },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'Actions', value: 'actions', sortable: true },
 
       ],
       admins:[],
@@ -313,6 +336,7 @@
       users:[],
       departments: [],
       att:'',
+      me:{},
       Rules : [
        v => !!v || 'This field is required',
      ],
@@ -362,45 +386,77 @@
 
     methods: {
 
+       status_class(val) {
+  
+        if(val == 1){
+          return 'blue'
+        }
+        else if (val == 2){
+          return 'success'
+        }
+        else if (val == 3){
+          return 'orange'
+        }
+        else if (val == 9){
+          return 'purple'
+        }
+         else if (val == 10){
+          return 'secondary'
+        }
+        else{
+          return 'red'
+        }
+      },
+
       share () {
 
-         console.log(this.editedItem.id,this.$auth.user);
+          this.$axios.post('share/' + this.editedItem.id,{user_id : this.editedItem.admin})
+            .then(res => {
 
-          // this.$axios.get('send_to_pmu/' + this.editedItem.id)
-          //   .then(res => {
-          
-          //     this.dialog1 = false;
-          //     this.$refs.form.reset()
+              Object.assign(this.data[this.editedIndex], res.data.data)
+              this.dialog1 = false;
+              this.$refs.form.reset()
             
-          //   }).catch(error => console.log(error));
+            }).catch(error => console.log(error));
 
       },
 
       initialize () {
 
+      this.me = this.$auth.user;
+      var {id,master,role_id} = this.me;
+
       var job_slug = '';
       
-      if(this.$auth.user.master == 1){
-        job_slug = this.$auth.user.id == 1 ? 'job' : 'jobs_for_pmu';
+      if(master == 1 || role_id == 1){
+        job_slug = role_id == 1 ? 'job' : 'jobs_for_pmu';
       }
-      else if (this.$auth.user.role_id == 1){
-        job_slug = 'jobs_by_created_user/' + this.$auth.user.id;
+      else if (role_id == 2){
+        job_slug = 'jobs_by_created_and_assigned/' + id;
       }
-       else if (this.$auth.user.role_id == 6){
+      else if (role_id == 3 || role_id == 4){
+        job_slug = 'jobs_by_assigned_user/' + id;
+      }
+      
+       else if (role_id == 7){
         job_slug = 'jobs_for_client';
       }
-      else{
-        job_slug = 'jobs_by_assigned_user/' + this.$auth.user.id;
-      }
+      
+      else{ job_slug = 'job' }
+
+
+
       this.$axios.get(job_slug).then(res => this.data = res.data.data);
 
-      this.$axios.get('user').then(res => this.users = res.data.data.filter((v) => v.master != 1 && v.id != this.$auth.user.id));
+      this.$axios.get(`user_2be_assigned/${id}/${master}/${role_id}`).then(res => this.users = res.data.data );
 
-      this.$axios.get('user').then(res => this.admins = res.data.data.filter((v) => v.master == 1 && v.id != 1 || v.role_id == 6));
-
+      this.$axios.get('admins').then(res => this.admins = res.data.data);
+      
       this.$axios.get('district').then(res => this.districts = res.data);
 
       this.$axios.get('department').then(res => this.departments = res.data);
+
+
 
       },
 
@@ -411,14 +467,11 @@
         check_attachment(e) { 
         this.editedItem.attachment = e.target.files[0] || ''; 
         },
-
-        
-
-      shareItem (item) {
-        this.editedItem.id = item.id;
-        this.dialog1 = true;
-
-      },
+        shareItem (item) {
+           this.editedIndex = this.data.indexOf(item)
+           this.editedItem = Object.assign({}, item)
+           this.dialog1 = true;
+        },
 
        viewItem (item) {
         this.$router.push(`/job/${item.id}`);

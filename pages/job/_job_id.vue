@@ -1,12 +1,25 @@
 <template>
+
 <v-row>
+
+<v-snackbar color="primary" v-model="snackbar" :top="'top'">
+{{msg}}
+<v-btn small text dark  @click="snackbar = false">X</v-btn>
+</v-snackbar>
+
+<v-col cols="12">
+<v-switch v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
+</v-col>
+
+
 <v-col cols="7">
 
-<v-toolbar flat class="primary mb-3" dark><strong> Job Details</strong>
+<v-toolbar  flat class="primary mb-3" dark><strong> Job Details </strong>
 <v-spacer></v-spacer>
-<AddRevision v-if="me.role_id == 2 || me.role_id == 3" 
+<AddRevision v-if="sw == true && me.role_id == 2 || me.role_id == 3" 
   :revision_title="'Add Revision'"
- :size="false" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />
+ :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />
+
 </v-toolbar>
             
 <v-simple-table>
@@ -116,6 +129,8 @@ export default {
 components : { PMUChat:PMUChat,Chat:Chat,AddRevision:AddRevision },
 data () {
 return {
+    sw:false,
+    snackbar:false,
     master : false,
     dialog:false,
     dialog1:false,
@@ -163,7 +178,19 @@ methods : {
     this.keyword = res.data.data.status.keyword;     
     this.job_type = this.item.job_type == 1 ? 'Atl' : 'Btl'
 
+    this.sw = this.item.status.id == 2 ? true : false ;
+
     });
+  },
+  start_working () {
+      this.$axios.post(`change_status/${this.job_id}`,{sw:this.sw}).then(res => {
+
+         this.msg = this.sw ? 'Job has beed started now' : 'You hold the job';
+
+         this.snackbar = true;
+
+    });
+
   }
  }
 

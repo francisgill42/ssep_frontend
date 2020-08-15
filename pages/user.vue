@@ -23,7 +23,7 @@
         ></v-divider>
         <v-dialog v-model="dialog" max-width="900px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Add User</v-btn>
+            <v-btn small dark class="secondary lighten-2 mb-2" v-on="on">Add User</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -105,8 +105,9 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+              <v-btn small class="primary" text @click="close">Cancel</v-btn>
+              <v-btn small class="secondary lighten-2" text @click="save">Save</v-btn>
+              
             </v-card-actions>
 
             <template v-if="editedIndex > -1">
@@ -126,12 +127,10 @@
                   </v-col>
 
                   <v-col cols="12" sm="12" md="12">
-                        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                        <v-btn color="blue darken-1" text @click="change_password">Save</v-btn>
+                     <v-btn small class="primary" text @click="close">Cancel</v-btn>
+                     <v-btn small class="secondary lighten-2" text @click="change_password">Save</v-btn>
                   </v-col>
                 
-
-            
                 </v-row>
               </v-container>
             </v-card-text>
@@ -160,7 +159,7 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
+      <v-btn small color="primary" @click="initialize">Reset</v-btn>
     </template>
   </v-data-table>
 </template>

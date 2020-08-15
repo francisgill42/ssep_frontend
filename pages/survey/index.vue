@@ -19,6 +19,12 @@
         label="Search"
         hide-details
       ></v-text-field>
+
+       <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
        
       </v-toolbar>
     </template>
@@ -32,7 +38,7 @@
     </template>
    
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
+      <v-btn small color="primary" @click="initialize">Reset</v-btn>
     </template>
 
 

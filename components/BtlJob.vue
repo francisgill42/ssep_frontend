@@ -11,7 +11,7 @@
         class="grey--text"
         color="white"
       >
-        {{btl_count}}
+        {{count}}
       </v-list-item-avatar>
     </v-list-item>
 
@@ -26,16 +26,18 @@ export default {
 
 
 data: () => ({
-btl_count:0
+count:''
 }),
 async created () {  
 
-    this.btl_count = await this.$axios.get('job').then(res => this.count = res.data.data.filter(v => v.job_type == 2).length);
-},
-methods : {
+  await this.$axios.get('get_job_count/' + 2).then(res => {
+
+       this.count = res.data < 10 ? '0' + res.data : res.data;
+
+    });
 
 },
- 
+methods : {}, 
 }
 
 </script>
