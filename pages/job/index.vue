@@ -236,6 +236,15 @@
         mdi-share-variant
         </v-icon>
 
+         <v-icon
+        v-if="me.id == 2"
+        small
+        class="mr-2"
+        @click="shareItem(item)"
+        >
+        mdi-share-variant
+        </v-icon>
+
    <!-- 1.	Team Head ===> 7
             create, view, edit, share, delete and view logs
 
@@ -326,6 +335,12 @@
           text: 'Department',
           sortable: true,
           value: 'department.department',
+        },
+
+          {
+          text: 'Created At',
+          sortable: true,
+          value: 'created_at',
         },
         { text: 'Actions', value: 'actions', sortable: true },
 

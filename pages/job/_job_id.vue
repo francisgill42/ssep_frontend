@@ -8,7 +8,7 @@
 </v-snackbar>
 
 <v-col cols="12">
-<v-switch v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
+<v-switch v-if="me.role_id == 3 || me.role_id == 4" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
 </v-col>
 
 
@@ -16,7 +16,7 @@
 
 <v-toolbar  flat class="primary mb-3" dark><strong> Job Details </strong>
 <v-spacer></v-spacer>
-<AddRevision v-if="sw == true && me.role_id == 2 || me.role_id == 3" 
+<AddRevision v-if="sw == true && me.role_id == 2 || me.role_id == 3 || me.role_id == 4" 
   :revision_title="'Add Revision'"
  :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />
 
@@ -115,7 +115,7 @@
 </v-col>
 <v-col cols="1"></v-col>
 <v-col  cols="4" v-if="item.job_type == 1">
-<Chat v-if="!me.master" :job_id="job_id" :item="item" />
+<Chat v-if="!me.master  && me.role_id != 7" :job_id="job_id" :item="item" />
 <PMUChat v-if="me.master || me.role_id == 1"  class="mt-3" :job_id="job_id" :item="item"/>  
 </v-col>
 </v-row>

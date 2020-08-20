@@ -1,6 +1,5 @@
 <template>
   <v-card
-    max-width="344"
     outlined
     dark
   >

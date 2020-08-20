@@ -40,12 +40,11 @@ module.exports = {
   /*
   ** Nuxt.js modules
   */
- modules: [
-  '@nuxtjs/axios',
-  '@nuxtjs/auth',
-  '@nuxtjs/dotenv'
-],
-axios: { baseURL: process.env.BaseUrl },
+ modules: [ '@nuxtjs/axios', '@nuxtjs/auth' ],
+axios: { 
+    // baseURL : 'http://localhost:8000/api/' 
+    baseURL : 'https://orangeroomdigital.com/sscp/public/api/' 
+},
 
 auth: {
 
