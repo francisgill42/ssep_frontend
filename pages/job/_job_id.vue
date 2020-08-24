@@ -16,7 +16,7 @@
 
 <v-toolbar  flat class="primary mb-3" dark><strong> Job Details </strong>
 <v-spacer></v-spacer>
-<AddRevision v-if="sw == true && me.role_id == 2 || me.role_id == 3 || me.role_id == 4" 
+<AddRevision v-if="sw == true && (me.role_id == 2 || me.role_id == 3 || me.role_id == 4)" 
   :revision_title="'Add Revision'"
  :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />
 

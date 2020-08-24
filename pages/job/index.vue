@@ -234,6 +234,8 @@
         @click="shareItem(item)"
         >
         mdi-share-variant
+
+        {{item}}
         </v-icon>
 
          <v-icon
@@ -465,7 +467,7 @@
 
       this.$axios.get(`user_2be_assigned/${id}/${master}/${role_id}`).then(res => this.users = res.data.data );
 
-      this.$axios.get('admins').then(res => this.admins = res.data.data);
+      this.$axios.get('admins').then(res => this.admins = res.data.data.filter((v) => v.id != id ));
       
       this.$axios.get('district').then(res => this.districts = res.data);
 

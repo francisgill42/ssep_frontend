@@ -36,7 +36,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="12" md="12">
-                    <v-text-field v-model="editedItem.district" label="district"></v-text-field>
+                    <v-text-field v-model="editedItem.district" label="District"></v-text-field>
                   </v-col>
                 
                 </v-row>

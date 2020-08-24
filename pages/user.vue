@@ -74,7 +74,7 @@
 
 
                   <v-col cols="6" sm="6" md="6">
-                    <v-text-field v-model="editedItem.name" label="name"></v-text-field>
+                    <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
                     <div style="color:red;" v-if="errors.name">{{errors.name[0]}}</div>
                   </v-col>
                  

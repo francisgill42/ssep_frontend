@@ -88,7 +88,7 @@
                         v-on="on"
                         ></v-text-field>
                         </template>
-                        <v-date-picker color="primary" v-model="editedItem._from" no-title scrollable>
+                        <v-date-picker :min="editedItem._from" :max="getEndDate" color="primary" v-model="editedItem._from" no-title scrollable>
                         <v-spacer></v-spacer>
                         <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                         <v-btn text color="primary" @click="$refs.menu.save(editedItem._from)">OK</v-btn>
@@ -115,7 +115,7 @@
                         v-on="on"
                         ></v-text-field>
                         </template>
-                        <v-date-picker color="primary" v-model="editedItem._to" no-title scrollable>
+                        <v-date-picker :min="editedItem._from" :max="getEndDate" color="primary" v-model="editedItem._to" no-title scrollable>
                         <v-spacer></v-spacer>
                         <v-btn text color="primary" @click="menu1 = false">Cancel</v-btn>
                         <v-btn text color="primary" @click="$refs.menu1.save(editedItem._to)">OK</v-btn>
@@ -163,8 +163,8 @@
        assigned_to:'',   
        job_type:0,
        task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachment:'', 
-       _from: new Date().toISOString().substr(0, 10),
-       _to: new Date().toISOString().substr(0, 10)
+       _from: '',
+       _to: '',
       },
 
       defaultItem: {   
@@ -176,12 +176,17 @@
     }),
 
     computed: {
-
-            get_attachment_name(){
+        
+       get_attachment_name(){
               var res = '';
               res = this.editedIndex === -1 ? 'Upload Attachment' : this.editedItem.attachment;
               return this.editedItem.attachment.name ? this.editedItem.attachment.name : res ;
       },
+       getEndDate() {
+     var date =  new Date();
+     var endDate = new Date(date.getFullYear(), date.getMonth() + 12, 10);
+     return endDate.toISOString().slice(0,10)
+    }
     },
 
 
@@ -240,7 +245,7 @@
               this.loading = true;
           
              this.$axios.post('job',payload).then((res) => {
-               this.$router.push('/job');
+               this.$router.push('/job/');
                this.loading = false;
              });
         }

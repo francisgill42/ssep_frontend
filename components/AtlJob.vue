@@ -6,7 +6,7 @@
     <v-list-item class="grad">
       <v-list-item-content>
         <div class="overline mb-4">Total</div>
-        <v-list-item-title class="headline mb-1">Atl Jobs</v-list-item-title>
+        <v-list-item-title class="headline mb-1">ATL Jobs</v-list-item-title>
       </v-list-item-content>
 
       <v-list-item-avatar
