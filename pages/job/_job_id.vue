@@ -59,11 +59,11 @@
         <v-dialog v-model="dialog1" max-width="900px">
         <template v-slot:activator="{ on }">
         <div class="pa-5">
-              <v-img v-on="on" height="175px" width="250px" :src="item.attachment"></v-img>
+              <v-img v-on="on" height="175px" width="250px" :src="attachment"></v-img>
         </div>
         </template>
 
-        <v-img height="auto" width="100%" :src="item.attachment"></v-img>
+        <v-img height="auto" width="100%" :src="attachment"></v-img>
         </v-dialog> 
 
       </td>
@@ -177,9 +177,8 @@ methods : {
     this.district = res.data.data.district ? res.data.data.district.district : '';
     this.keyword = res.data.data.status.keyword;     
     this.job_type = this.item.job_type == 1 ? 'Atl' : 'Btl'
-
+    this.attachment = res.data.data.attachment;
     this.sw = this.item.status.id == 2 ? true : false ;
-
     });
   },
   start_working () {
