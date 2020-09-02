@@ -42,7 +42,7 @@
 
   </div>
   </template>
-    <p class="text-center white--text">{{no_records}}</p>
+    <p class="text-center">{{no_records}}</p>
 </v-card-text>
 </v-card>
 </div>

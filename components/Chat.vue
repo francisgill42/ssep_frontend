@@ -42,7 +42,7 @@
 
   </div>
   </template>
-    <p class="text-center white--text">{{no_records}}</p>
+    <p class="text-center">{{no_records}}</p>
 </v-card-text>
 </v-card>
 </div>
@@ -71,7 +71,7 @@ async created () {
   
     this.$nuxt.$on('revision', (v) => {
     
-      console.log('using emit');
+      console.log(v);
 
        var payload = {
 
@@ -124,7 +124,7 @@ methods : {
           r_id : this.$auth.user.id == this.item.created_by  ? this.item.assigned_to :  this.item.created_by 
           };
 
-        
+        console.log(payload);
         this.$axios.post('revision/' + this.job_id ,payload)
         .then(res => {
 
