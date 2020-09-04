@@ -68,7 +68,7 @@ no_records_pmu:'',
 me : {}
 }),
 async created () {  
-  
+
     this.$nuxt.$on('revision', (v) => {
     
       console.log(v);
@@ -96,7 +96,7 @@ async created () {
  watch: {
     rev: function (v) {
 
-      console.log(v);
+      //console.log(v);
      
       var payload = {
 
@@ -117,18 +117,21 @@ methods : {
 
       get_chat (slug) {
 
+          
+
         this.isPMU = this.$auth.user.master ? true : false ;
 
         var payload = { 
           s_id : this.$auth.user.id, 
           r_id : this.$auth.user.id == this.item.created_by  ? this.item.assigned_to :  this.item.created_by 
           };
-
-        console.log(payload);
-        this.$axios.post('revision/' + this.job_id ,payload)
+        // console.log(this.job_id);
+        console.log('my id ',this.item.created_by)
+        // console.log(payload);
+        this.$axios.post('revisions/' + this.job_id ,payload)
         .then(res => {
 
-          console.log(res.data.data);
+          //console.log(res.data.data);
 
           res.data.data.map((v => {
 

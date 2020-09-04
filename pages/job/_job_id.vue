@@ -8,7 +8,7 @@
 </v-snackbar>
 
 <v-col cols="12">
-<v-switch v-if="me.role_id != 1" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
+<v-switch v-if="me.role_id == 3 || me.role_id == 4" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
 </v-col>
 
 
@@ -115,8 +115,10 @@
 </v-col>
 <v-col cols="1"></v-col>
 <v-col  cols="4" v-if="item.job_type == 1">
-<Chat v-if="!me.master  && me.role_id != 7" :job_id="job_id" :item="item" />
-<PMUChat v-if="me.master || me.role_id == 1"  class="mt-3" :job_id="job_id" :item="item"/>  
+<Chat v-if="delay && !me.master  && me.role_id != 7" :job_id="job_id" :item="item" />
+
+
+<PMUChat v-if="delay && me.master || me.role_id == 1"  class="mt-3" :job_id="job_id" :item="item"/>  
 </v-col>
 </v-row>
 </template>
@@ -134,6 +136,7 @@ return {
     master : false,
     dialog:false,
     dialog1:false,
+    delay:false,
     headers:[
       { text: 'id', sortable: true, value: 'id' },
       { text: 's_id', sortable: true, value: 's_id' },
@@ -158,7 +161,9 @@ return {
 }
 },
 
-async created () {     
+async created () {
+  
+  setTimeout(() => this.delay = true,3000);
 
   this.me = this.$auth.user; 
   
@@ -170,6 +175,7 @@ methods : {
   get_data () {
     this.$axios.get(`job/${this.job_id}`).then(res => {
 
+
     this.item = res.data.data;
     this.created_by = res.data.data.created_by_user.name;
     this.assigned_to = res.data.data.assigned_to_user.name;
@@ -178,7 +184,7 @@ methods : {
     this.keyword = res.data.data.status.keyword;     
     this.job_type = this.item.job_type == 1 ? 'Atl' : 'Btl'
     this.attachment = res.data.data.attachment;
-    this.sw = this.item.status.id == 2 ? true : false ;
+    this.sw = this.item.status.id != 1 ? true : false ;
     });
   },
   start_working () {
