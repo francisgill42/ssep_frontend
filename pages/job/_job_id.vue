@@ -8,7 +8,7 @@
 </v-snackbar>
 
 <v-col cols="12">
-<v-switch v-if="me.role_id == 3 || me.role_id == 4" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
+<v-switch v-if="me.role_id != 1" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
 </v-col>
 
 
