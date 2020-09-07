@@ -4,7 +4,7 @@
 >
 <v-toolbar flat class="primary mb-1" dark><strong>Revisions with PMU</strong>
 <v-spacer></v-spacer>
-<AddRevisionPMU 
+<AddRevisionPMU v-if="me.status_id == 9"
   :revision_title="'Send Response'"
  :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />  
 
@@ -112,19 +112,17 @@ async created () {
 methods : {
 
       get_chat (slug) {
-
-          console.log(this.$auth.user.id);
+      
+      console.log(this.$auth.user.id);
 
         var payload = { 
           s_id : this.$auth.user.id, 
           r_id : this.$auth.user.master ? this.item.created_by : 5 
           };
-
-
         
         this.$axios.post('revision/' + this.job_id , payload)
         .then(res => {
-
+          
           res.data.data.map((v => {
 
                   this.revisions_with_user.push({
