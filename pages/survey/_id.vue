@@ -32,6 +32,22 @@
           <th>Rooms</th>
           <td>{{ item.rooms }}</td>
         </tr>
+        <tr>
+          <th>Attachment</th>
+          <td>
+
+            <v-dialog v-model="dialog1" max-width="900px">
+            <template v-slot:activator="{ on }">
+            <div class="pa-5">
+                  <v-img v-on="on" height="175px" width="250px" :src="item.attachment"></v-img>
+            </div>
+            </template>
+
+            <v-img height="auto" width="100%" :src="item.attachment"></v-img>
+            </v-dialog> 
+
+          </td>
+        </tr>
          <tr>
           <th>Family Members</th>
           <td>
@@ -207,7 +223,7 @@
        
        
         this.$axios.get(`survey/${this.$route.params.id}`).then(res => {
-
+            console.log(res.data);
             this.item = res.data;
             this.user = res.data.user.name;
             this.fms = res.data.fms;
