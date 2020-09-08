@@ -491,7 +491,7 @@
         },
 
        viewItem (item) {
-        this.$router.push(`/job/${item.id}`);
+        this.$router.push(`/job/${item.id}/`);
       },
 
       editItem (item) {
