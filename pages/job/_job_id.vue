@@ -172,7 +172,7 @@ created () {
 
 methods : {
   get_data () {
-    this.$axios.get(`job/${this.job_id}`).then(res => {
+    this.$axios.get(`job/${this.job_id}/`).then(res => {
 
 
     this.item = res.data.data;
