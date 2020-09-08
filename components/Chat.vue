@@ -70,9 +70,6 @@ me : {}
 async created () {  
 
     this.$nuxt.$on('revision', (v) => {
-    
-      console.log(v);
-
        var payload = {
 
         name : v.sender.name,
@@ -125,9 +122,7 @@ methods : {
           s_id : this.$auth.user.id, 
           r_id : this.$auth.user.id == this.item.created_by  ? this.item.assigned_to :  this.item.created_by 
           };
-        // console.log(this.job_id);
-        console.log('my id ',this.item.created_by)
-        // console.log(payload);
+       
         this.$axios.post('revisions/' + this.job_id ,payload)
         .then(res => {
 

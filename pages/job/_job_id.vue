@@ -168,6 +168,9 @@ async created () {
   this.me = this.$auth.user; 
   
   await this.get_data();
+
+  await this.$nuxt.$on('update_attachment', v => this.attachment = v);
+
 },
 
 

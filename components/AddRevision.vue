@@ -126,8 +126,9 @@ methods : {
           }
 
             this.$axios.post(`revision`,revision).then(res => {
-              this.$nuxt.$emit('revision',res.data.data);
-          
+            
+            this.$nuxt.$emit('revision',res.data.data);
+
               let payload = new FormData();
               payload.append('attachment',this.attachment);
 
@@ -135,9 +136,10 @@ methods : {
               this.$axios.post('update_attachment/' + this.job_id, payload)
                 .then(res => {
                   this.item.attachment = res.data.attachment
+
+                  this.$nuxt.$emit('update_attachment',res.data.attachment);
                   this.dialog = false
                   this.$refs.form.reset()
-                //  this.$router.push(`/job`);
                 
               }).catch(error => console.log(error));
             
