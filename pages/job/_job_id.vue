@@ -161,13 +161,12 @@ return {
 }
 },
 
-async created () {
+created () {
   
   setTimeout(() => this.delay = true,3000);
 
   this.me = this.$auth.user; 
-  
-  await this.get_data();
+  this.get_data();
 },
 
 
