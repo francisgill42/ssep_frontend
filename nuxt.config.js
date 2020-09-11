@@ -43,7 +43,8 @@ module.exports = {
  modules: [ '@nuxtjs/axios', '@nuxtjs/auth' ],
 axios: { 
     // baseURL : 'http://localhost:8000/api/' 
-    baseURL : 'https://orangeroomdigital.com/sscp/public/api/' 
+       baseURL : 'https://backend.dev-ssep.tk/api/'
+      //  baseURL : 'https://orangeroomdigital.com/sscp/public/api/' 
 },
 
 auth: {
@@ -51,7 +52,7 @@ auth: {
   strategies: {
     local: {
       endpoints: {
-        login: { url: 'login', method: 'post',propertyName: 'token' },
+        login: { url: 'login', method: 'post', propertyName: 'token' },
         logout: false,
         user: { url: 'me', method: 'get', propertyName: 'user' }
       }
