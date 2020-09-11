@@ -130,6 +130,7 @@ get_menus () {
             { icon: 'mdi-briefcase-check', title: 'Status',to: '/status' },  
   ];
 
+if(this.$auth.user){
   if(this.$auth.user.master == 1 && this.$auth.user.id == 1){
     this.menus = master_menu;
   }
@@ -150,6 +151,9 @@ get_menus () {
   else{
     this.menus = all_menu;
   }
+}else{
+  this.menus = [];
+}
 
   
 

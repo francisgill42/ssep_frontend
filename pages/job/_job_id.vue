@@ -161,18 +161,22 @@ return {
 }
 },
 
-created () {
+async created () {
   
   setTimeout(() => this.delay = true,3000);
 
   this.me = this.$auth.user; 
-  this.get_data();
+  
+  await this.get_data();
+
+  await this.$nuxt.$on('update_attachment', v => this.attachment = v);
+
 },
 
 
 methods : {
   get_data () {
-    this.$axios.get(`job/${this.job_id}/`).then(res => {
+    this.$axios.get(`job/${this.job_id}`).then(res => {
 
 
     this.item = res.data.data;
