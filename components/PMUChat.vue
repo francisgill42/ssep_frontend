@@ -120,7 +120,7 @@ methods : {
           r_id : this.$auth.user.master ? this.item.created_by : 5 
           };
         
-        this.$axios.post('revision/' + this.job_id , payload)
+        this.$axios.post('revisions/' + this.job_id , payload)
         .then(res => {
           
           res.data.data.map((v => {
