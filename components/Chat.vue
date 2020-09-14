@@ -4,7 +4,7 @@
 >
 <v-toolbar flat class="primary mb-1" dark><strong>Revisions with User</strong>
 <v-spacer></v-spacer>
-<AddRevision v-if="me.role_id == 1"
+<AddRevision v-if="me.role_id == 1 && item.status_id == 3"
   :revision_title="'Send Response'"
  :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />  
 
