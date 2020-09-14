@@ -16,7 +16,7 @@
 
 <v-toolbar  flat class="primary mb-3" dark><strong> Job Details </strong>
 <v-spacer></v-spacer>
-<AddRevision v-if="sw == true && (me.role_id == 2 || me.role_id == 3 || me.role_id == 4) && item.job_type == 1" 
+<AddRevision v-if="sw == true && (me.role_id == 2 || me.role_id == 3 || me.role_id == 4) && item.job_type == 1 && (item.status.id == 2 || item.status.id == 3)" 
   :revision_title="'Add Revision'"
  :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />
 
@@ -187,7 +187,7 @@ methods : {
     this.keyword = res.data.data.status.keyword;     
     this.job_type = this.item.job_type == 1 ? 'Atl' : 'Btl'
     this.attachment = res.data.data.attachment;
-    this.sw = this.item.status.id == 1 || this.item.status.id == 4 ? false : true ;
+    this.sw = this.item.status.id == 2 || this.item.status.id == 3 || this.item.status.id == 9 || this.item.status.id == 10 ? true : false ;
     });
   },
   start_working () {

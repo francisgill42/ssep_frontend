@@ -124,7 +124,7 @@ methods : {
           r_id : this.me.master || this.me.role_id == 2 || this.me.role_id == 3 || this.$auth.user.role_id == 4 ? this.item.created_by : this.item.assigned_to ,
           msg : this.msg
           }
-
+  
             this.$axios.post(`revision`,revision).then(res => {
             
             this.$nuxt.$emit('revision',res.data.data);

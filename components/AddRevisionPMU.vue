@@ -118,7 +118,7 @@ methods : {
           var revision = {
           job_id : this.job_id,
           s_id : this.$auth.user.id,
-          r_id : this.me.master ? this.item.created_by : 5 ,
+          r_id : this.me.master ? this.item.created_by : 2 ,
           msg : this.msg
           }
 
