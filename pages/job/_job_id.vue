@@ -187,7 +187,7 @@ methods : {
     this.keyword = res.data.data.status.keyword;     
     this.job_type = this.item.job_type == 1 ? 'Atl' : 'Btl'
     this.attachment = res.data.data.attachment;
-    this.sw = this.item.status.id != 1 ? true : false ;
+    this.sw = this.item.status.id == 1 || this.item.status.id == 4 ? false : true ;
     });
   },
   start_working () {
