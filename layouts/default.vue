@@ -85,7 +85,6 @@ get_menus () {
   var user_and_subuser_menu = [
             { icon: 'mdi-apps', title: 'Home',to: '/' },
             { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
-            { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
   ];
  
   var admin_and_subadmin_menu = [
