@@ -82,7 +82,7 @@ router: {
         light: {
           primary: colors.grey.darken1,
           accent: '#F9F8F4',
-          secondary: '#008b09',
+          secondary: '#0e97e7',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

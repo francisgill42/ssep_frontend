@@ -194,7 +194,7 @@ methods : {
       this.$axios.post(`change_status/${this.job_id}`,{sw:this.sw}).then(res => {
 
          this.msg = this.sw ? 'Job has beed started now' : 'You hold the job';
-
+         this.item.status.id = res.data.data.status_id;
          this.snackbar = true;
 
     });

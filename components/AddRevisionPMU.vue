@@ -133,8 +133,10 @@ methods : {
 
             this.$axios.post('update_attachment/' + this.job_id, payload)
             .then(res => {
-              this.item.attachment = res.data.attachment
-              this.dialog = false
+                
+              this.item.attachment = res.data.attachment;
+              this.$nuxt.$emit('update_attachment',res.data.attachment);
+              this.dialog = false;
               this.$refs.form.reset()
             //  this.$router.push(`/job`);
             
