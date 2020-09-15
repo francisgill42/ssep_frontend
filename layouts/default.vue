@@ -165,6 +165,6 @@ if(this.$auth.user){
 
 <style>
 .grad {
-  background: linear-gradient(to bottom right, #008b09, grey);
+  background: linear-gradient(to bottom right, #0e97e7, grey);
 }
 </style>
