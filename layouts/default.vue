@@ -5,7 +5,7 @@ v-model="drawer" :clipped="clipped" fixed app>
 <v-list>
 <v-list-item>
 <v-list-item-content>
-<img src="/energy-logo.png" alt="ssep login">
+<img src="/ssep-logo.png" alt="ssep login" style="width:0%">
 </v-list-item-content>
 </v-list-item>
 

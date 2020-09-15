@@ -207,7 +207,7 @@
 
       this.$axios.get('district').then(res => this.districts = res.data);
 
-      this.$axios.get('department').then(res => this.departments = res.data);
+      this.$axios.get('dept_ex_btl').then(res => this.departments = res.data);
 
       },
 
