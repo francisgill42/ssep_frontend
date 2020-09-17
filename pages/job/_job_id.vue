@@ -8,7 +8,7 @@
 </v-snackbar>
 
 <v-col cols="12">
-<v-switch v-if="(me.role_id == 3 || me.role_id == 4) && job_type == 'Atl' && (item.status.id == 1 || item.status.id == 2)" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
+<v-switch v-if="(me.role_id == 3 || me.role_id == 4) && job_type && (item.status.id == 1 || item.status.id == 2)" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
 </v-col>
 
 
@@ -16,7 +16,7 @@
 
 <v-toolbar  flat class="primary mb-3" dark><strong> Job Details </strong>
 <v-spacer></v-spacer>
-<AddRevision v-if="sw == true && (me.role_id == 2 || me.role_id == 3 || me.role_id == 4) && item.job_type == 1 && (item.status.id == 2 || item.status.id == 3)" 
+<AddRevision v-if="sw == true && (me.role_id == 2 || me.role_id == 3 || me.role_id == 4) && (item.status.id == 2 || item.status.id == 3)" 
   :revision_title="'Add Revision'"
  :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />
 
@@ -114,7 +114,7 @@
 
 </v-col>
 <v-col cols="1"></v-col>
-<v-col  cols="4" v-if="item.job_type == 1">
+<v-col  cols="4">
 <Chat v-if="delay && !me.master  && me.role_id != 7" :job_id="job_id" :item="item" />
 
 

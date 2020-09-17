@@ -225,6 +225,20 @@
       <v-chip v-if="item.status.id == 1 && me.role_id != 1" small color="secondary"> New </v-chip>
   </template>
 
+<template v-if="me.id == 2" v-slot:item.approve="{ item }">
+  <div class="text-center">
+    <div v-if="item.status.id == 8">
+      <v-btn x-small class="ma-2" color="primary" dark @click="Approve(item)">Approve
+        <v-icon dark right>mdi-checkbox-marked-circle</v-icon>
+      </v-btn>
+
+      <v-btn x-small class="ma-2" color="red" dark @click="Reject(item)">Decline
+        <v-icon dark right>mdi-cancel</v-icon>
+      </v-btn>
+    </div>    
+  </div>
+</template>
+
         <template v-slot:item.actions="{ item }">
 
         <v-icon
@@ -302,6 +316,7 @@
           text: 'id',
           sortable: true,
           value: 'id',
+          
         },
 
         
@@ -309,42 +324,50 @@
           text: 'Job Title',
           sortable: true,
           value: 'task_title',
+          
         },
         
         {
           text: 'District',
           sortable: true,
           value: 'district.district',
+          
         },
         {
           text: 'Status',
           sortable: true,
           value: 'status.keyword',
+          
         },
 
           {
           text: 'Created By',
           sortable: true,
           value: 'created_by_user.name',
+          
         },
           {
           text: 'Assign to',
           sortable: true,
           value: 'assigned_to_user.name',
+          
         },
 
           {
           text: 'Department',
           sortable: true,
           value: 'department.department',
+          
         },
 
-          {
+        {
           text: 'Created At',
           sortable: true,
           value: 'created_at',
+          
         },
-        { text: 'Actions', value: 'actions', sortable: true },
+        { text: 'Approve/Reject', value: 'approve', sortable: true, },
+        { text: 'Actions', value: 'actions', sortable: true, },
 
       ],
       admins:[],
@@ -399,6 +422,20 @@
 
     created () {
       this.initialize()
+
+      // this.headers.filter(v => console.log(v.text))
+
+   
+
+
+      if(this.me.id != 2){
+        this.headers = this.headers.filter(v => v.text != 'Approve/Reject' );
+      }
+
+      
+
+
+
     },
 
     methods: {
@@ -420,6 +457,12 @@
          else if (val == 10){
           return 'secondary'
         }
+        else if (val == 8){
+          return 'green'
+        }
+        else if (val == 6){
+          return 'yellow'
+        }
         else{
           return 'red'
         }
@@ -435,6 +478,28 @@
               this.$refs.form.reset()
             
             }).catch(error => console.log(error));
+
+      },
+
+      Approve(item){
+        this.$axios.get(`approve_reject/${item.id}/a`).then(res => {
+
+          item.status.id = res.data.data.status.id;
+          item.status.keyword = res.data.data.status.keyword;
+          console.log(item,res.data.data.status.id);
+        });
+      },
+      Reject(item){
+
+         const index = this.data.indexOf(item)
+         confirm('Are you sure you want to reject this item?') && 
+         this.$axios.get('approve_reject/'+item.id + '/r')
+            .then((res) => {
+              console.log(res);
+              const index = this.data.indexOf(item)
+              this.data.splice(index, 1)
+            
+            });
 
       },
 
