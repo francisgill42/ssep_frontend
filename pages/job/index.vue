@@ -246,8 +246,8 @@
 
         <template v-slot:item.actions="{ item }">
 
-        <!-- <v-icon
-        v-if="me.role_id == 1 || me.role_id == 2 || me.role_id == 3"
+        <v-icon
+        v-if="(me.role_id == 1 || me.role_id == 2 || me.role_id == 3) && item.status_id == 3"
         small
         class="mr-2"
         @click="shareItem(item)"
@@ -257,7 +257,7 @@
         {{item}}
         </v-icon>
 
-         <v-icon
+         <!-- <v-icon
         v-if="me.id == 2"
         small
         class="mr-2"

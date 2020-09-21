@@ -4,7 +4,7 @@
 >
 <v-toolbar flat class="primary mb-1" dark><strong>Revisions with PMU</strong>
 <v-spacer></v-spacer>
-<AddRevisionPMU
+<AddRevisionPMU v-if="item.status_id != 7"
   :revision_title="'Send Response'"
  :size="true" :btn_class="'secondary lighten-2'" :job_id="job_id" :item="item" />  
 
