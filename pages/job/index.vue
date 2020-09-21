@@ -152,7 +152,7 @@
                         </v-menu>
                     </v-col>
                      
-                   <v-col cols="12" sm="12" md="12">
+                   <v-col v-if="editedItem.status_id == 1 || editedItem.status_id == 6" cols="12" sm="12" md="12">
                     <v-select
                         :rules="Rules" 
                         v-model="editedItem.assigned_to"
@@ -220,9 +220,14 @@
 
      <template v-slot:item.status.keyword="{ item }">
     <v-chip  dark small :class="status_class(item.status.id)">
-      {{item.status.keyword}} 
+      {{item.status.keyword}}
       </v-chip>
       <v-chip v-if="item.status.id == 1 && me.role_id != 1" small color="secondary"> New </v-chip>
+  </template>
+
+  <template v-slot:item.assigned_to_user.name="{ item }">
+     <span v-if="item.assigned_to">{{item.assigned_to_user.name}}</span>
+     <strong v-else>Not Assigned</strong>
   </template>
 
 <template v-if="me.id == 2" v-slot:item.approve="{ item }">
@@ -232,7 +237,7 @@
         <v-icon dark right>mdi-checkbox-marked-circle</v-icon>
       </v-btn>
 
-      <v-btn x-small class="ma-2" color="red" dark @click="Reject(item)">Decline
+      <v-btn x-small class="ma-2" color="red" dark @click="Reject(item)">Reject
         <v-icon dark right>mdi-cancel</v-icon>
       </v-btn>
     </div>    
@@ -241,7 +246,7 @@
 
         <template v-slot:item.actions="{ item }">
 
-        <v-icon
+        <!-- <v-icon
         v-if="me.role_id == 1 || me.role_id == 2 || me.role_id == 3"
         small
         class="mr-2"
@@ -259,7 +264,7 @@
         @click="shareItem(item)"
         >
         mdi-share-variant
-        </v-icon>
+        </v-icon> -->
 
    <!-- 1.	Team Head ===> 7
             create, view, edit, share, delete and view logs
@@ -402,6 +407,7 @@
 
     computed: {
 
+     
         get_attachment_name(){
         var res = '';
         res = this.editedIndex === -1 ? 'Upload Attachment' : this.editedItem.attachment;
@@ -439,6 +445,13 @@
     },
 
     methods: {
+
+      //  res(item){
+      //    if(item.assigned_to){
+      //     return  item.assigned_to_user.name
+      //    }
+      //   return 'not assigned';
+      // },
 
        status_class(val) {
   

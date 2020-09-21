@@ -123,7 +123,7 @@
                         </v-menu>
                     </v-col>
                      
-                   <v-col cols="12" sm="12" md="12">
+                   <!-- <v-col cols="12" sm="12" md="12">
                     <v-select
                         :rules="Rules" 
                         v-model="editedItem.assigned_to"
@@ -132,7 +132,7 @@
                         item-value="id"
                         label="Assign to"
                         ></v-select>
-                  </v-col>
+                  </v-col> -->
 
                   <v-col>
                     <v-btn class="primary" text @click="save" :loading="loading">Save</v-btn>
@@ -160,7 +160,7 @@
       editedIndex: -1,
       editedItem: {    
       change_attachment:'',
-       assigned_to:'',   
+       //assigned_to:'',   
        job_type:0,
        task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachment:'', 
        _from: '',
@@ -237,7 +237,7 @@
             payload.append('attachment',this.editedItem.attachment);
             payload.append('from',this.editedItem._from);
             payload.append('to',this.editedItem._to);
-            payload.append('assigned_to',this.editedItem.assigned_to);
+            //payload.append('assigned_to',this.editedItem.assigned_to);
             payload.append('brief',this.editedItem.brief);
 
             if(this.$refs.form.validate()){

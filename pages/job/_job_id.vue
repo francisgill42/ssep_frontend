@@ -8,9 +8,11 @@
 </v-snackbar>
 
 <v-col cols="12">
-<v-switch v-if="(me.role_id == 3 || me.role_id == 4) && job_type && (item.status.id == 1 || item.status.id == 2)" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
+<v-switch v-if="(me.role_id == 3 || me.role_id == 4) && job_type && (item.status.id == 1 || item.status.id == 2 || item.status.id == 4)" v-model="sw" @change="start_working" hide-details color="secondary" label="Start Working" />
 </v-col>
-
+<!-- <v-col cols="12">
+  <v-btn @click="Complete_job(item)">Complete Job</v-btn>
+</v-col>   -->
 
 <v-col cols="7">
 
@@ -178,7 +180,6 @@ methods : {
   get_data () {
     this.$axios.get(`job/${this.job_id}`).then(res => {
 
-
     this.item = res.data.data;
     this.created_by = res.data.data.created_by_user.name;
     this.assigned_to = res.data.data.assigned_to_user.name;
@@ -199,7 +200,14 @@ methods : {
 
     });
 
-  }
+  },
+  // Complete_job(item){
+  //       this.$axios.get(`approve_reject/${item.id}/a`).then(res => {
+  //         item.status.id = res.data.data.status.id;
+  //         item.status.keyword = res.data.data.status.keyword;
+  //         console.log(item,res.data.data.status.id);
+  //       });
+  // },
  }
 
 }
