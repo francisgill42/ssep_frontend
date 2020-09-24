@@ -152,7 +152,7 @@
                         </v-menu>
                     </v-col>
                      
-                   <v-col cols="12" sm="12" md="12">
+                   <v-col v-if="editedItem.status_id == 1 || editedItem.status_id == 6" cols="12" sm="12" md="12">
                     <v-select
                         :rules="Rules" 
                         v-model="editedItem.assigned_to"
@@ -220,15 +220,34 @@
 
      <template v-slot:item.status.keyword="{ item }">
     <v-chip  dark small :class="status_class(item.status.id)">
-      {{item.status.keyword}} 
+      {{item.status.keyword}}
       </v-chip>
       <v-chip v-if="item.status.id == 1 && me.role_id != 1" small color="secondary"> New </v-chip>
   </template>
 
+  <template v-slot:item.assigned_to_user.name="{ item }">
+     <span v-if="item.assigned_to">{{item.assigned_to_user.name}}</span>
+     <strong v-else>Not Assigned</strong>
+  </template>
+
+<template v-if="me.id == 2" v-slot:item.approve="{ item }">
+  <div class="text-center">
+    <div v-if="item.status.id == 8">
+      <v-btn x-small class="ma-2" color="primary" dark @click="Approve(item)">Approve
+        <v-icon dark right>mdi-checkbox-marked-circle</v-icon>
+      </v-btn>
+
+      <v-btn x-small class="ma-2" color="red" dark @click="Reject(item)">Reject
+        <v-icon dark right>mdi-cancel</v-icon>
+      </v-btn>
+    </div>    
+  </div>
+</template>
+
         <template v-slot:item.actions="{ item }">
 
         <v-icon
-        v-if="me.role_id == 1 || me.role_id == 2 || me.role_id == 3"
+        v-if="(me.role_id == 1 || me.role_id == 2 || me.role_id == 3) && item.status_id == 3"
         small
         class="mr-2"
         @click="shareItem(item)"
@@ -238,14 +257,14 @@
         {{item}}
         </v-icon>
 
-         <v-icon
+         <!-- <v-icon
         v-if="me.id == 2"
         small
         class="mr-2"
         @click="shareItem(item)"
         >
         mdi-share-variant
-        </v-icon>
+        </v-icon> -->
 
    <!-- 1.	Team Head ===> 7
             create, view, edit, share, delete and view logs
@@ -302,6 +321,7 @@
           text: 'id',
           sortable: true,
           value: 'id',
+          
         },
 
         
@@ -309,42 +329,50 @@
           text: 'Job Title',
           sortable: true,
           value: 'task_title',
+          
         },
         
         {
           text: 'District',
           sortable: true,
           value: 'district.district',
+          
         },
         {
           text: 'Status',
           sortable: true,
           value: 'status.keyword',
+          
         },
 
           {
           text: 'Created By',
           sortable: true,
           value: 'created_by_user.name',
+          
         },
           {
           text: 'Assign to',
           sortable: true,
           value: 'assigned_to_user.name',
+          
         },
 
           {
           text: 'Department',
           sortable: true,
           value: 'department.department',
+          
         },
 
-          {
+        {
           text: 'Created At',
           sortable: true,
           value: 'created_at',
+          
         },
-        { text: 'Actions', value: 'actions', sortable: true },
+        { text: 'Approve/Reject', value: 'approve', sortable: true, },
+        { text: 'Actions', value: 'actions', sortable: true, },
 
       ],
       admins:[],
@@ -379,6 +407,7 @@
 
     computed: {
 
+     
         get_attachment_name(){
         var res = '';
         res = this.editedIndex === -1 ? 'Upload Attachment' : this.editedItem.attachment;
@@ -399,9 +428,30 @@
 
     created () {
       this.initialize()
+
+      // this.headers.filter(v => console.log(v.text))
+
+   
+
+
+      if(this.me.id != 2){
+        this.headers = this.headers.filter(v => v.text != 'Approve/Reject' );
+      }
+
+      
+
+
+
     },
 
     methods: {
+
+      //  res(item){
+      //    if(item.assigned_to){
+      //     return  item.assigned_to_user.name
+      //    }
+      //   return 'not assigned';
+      // },
 
        status_class(val) {
   
@@ -420,6 +470,12 @@
          else if (val == 10){
           return 'secondary'
         }
+        else if (val == 8){
+          return 'green'
+        }
+        else if (val == 6){
+          return 'yellow'
+        }
         else{
           return 'red'
         }
@@ -435,6 +491,28 @@
               this.$refs.form.reset()
             
             }).catch(error => console.log(error));
+
+      },
+
+      Approve(item){
+        this.$axios.get(`approve_reject/${item.id}/a`).then(res => {
+
+          item.status.id = res.data.data.status.id;
+          item.status.keyword = res.data.data.status.keyword;
+          console.log(item,res.data.data.status.id);
+        });
+      },
+      Reject(item){
+
+         const index = this.data.indexOf(item)
+         confirm('Are you sure you want to reject this item?') && 
+         this.$axios.get('approve_reject/'+item.id + '/r')
+            .then((res) => {
+              console.log(res);
+              const index = this.data.indexOf(item)
+              this.data.splice(index, 1)
+            
+            });
 
       },
 
