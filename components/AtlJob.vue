@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    outlined
-    dark
-  >
+  <v-card dark>
     <v-list-item class="grad">
       <v-list-item-content>
         <div class="overline mb-4">Total</div>
@@ -10,11 +7,11 @@
       </v-list-item-content>
 
       <v-list-item-avatar
-        size="55"
+        size="80"
         class="grey--text"
         color="white"
       >
-        {{count}}
+      {{count}}
       </v-list-item-avatar>
     </v-list-item>
 

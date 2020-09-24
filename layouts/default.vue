@@ -5,13 +5,13 @@ v-model="drawer" :clipped="clipped" fixed app>
 <v-list>
 <v-list-item>
 <v-list-item-content>
-<img src="/ssep-logo.png" alt="ssep login" style="width:0%">
+<img src="/ssep-logo.png" alt="ssep login" style="width:50px; height:auto">
 </v-list-item-content>
 </v-list-item>
 
 <v-list-item v-for="(item, i) in menus" :key="i" :to="item.to" router exact>
 <v-list-item-action>
-<v-icon style="border-radius:50%; padding:7px;" class="grey white--text">{{ item.icon }}</v-icon>
+<v-icon style="border-radius:50%; padding:7px;" class="secondary white--text">{{ item.icon }}</v-icon>
 </v-list-item-action>
 <v-list-item-content>
 <v-list-item-title  v-text="item.title"/>
@@ -33,13 +33,13 @@ v-model="drawer" :clipped="clipped" fixed app>
 <!-- </v-btn> -->
 <!-- </span> -->
 </v-app-bar>
-<v-content>
+<v-main>
 
 <v-container>
 <nuxt />
 </v-container>
 
-</v-content>
+</v-main>
 
 <v-footer :fixed="fixed" app class="primary white--text">
 <span>&copy; {{year}}</span>
@@ -115,7 +115,8 @@ get_menus () {
             { icon: 'mdi-codepen', title: 'Department',to: '/department' },
             { icon: 'mdi-image-area', title: 'District',to: '/district' },
             { icon: 'mdi-briefcase-check', title: 'Role',to: '/role' },
-            { icon: 'mdi-briefcase-check', title: 'Status',to: '/status' },      
+            { icon: 'mdi-briefcase-check', title: 'Status',to: '/status' },
+            { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' },      
   ];
 
   var all_menu = [
@@ -165,6 +166,6 @@ if(this.$auth.user){
 
 <style>
 .grad {
-  background: linear-gradient(to bottom right, #008b09, grey);
+  background: linear-gradient(to bottom right, #0e97e7, grey);
 }
 </style>
