@@ -256,9 +256,14 @@ myBtnClass(val) {
         }
 },
   reset () {
-  this.date_from = '';
-  this.date_to = '';
-  this.id = '';
+    this.id = '';
+    this.department_id = '';
+    this.created_id = '';
+    this.assigned_to = '';
+    this.status_id = '';
+    this.date_from = '';
+    this.date_to = '';
+    this.timestamp = '';
   this.filter_records()
 },
   async get_data () {

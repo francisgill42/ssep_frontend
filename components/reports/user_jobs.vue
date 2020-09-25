@@ -245,9 +245,17 @@ myBtnClass(val) {
         }
 },
   reset () {
+    
+  this.id = '';
+  this.job_type = '';
+  this.district_id = '';
+  this.department_id = '';
+  this.created_id = '';
+  this.assigned_to = '';
+  this.status_id = '';
   this.date_from = '';
   this.date_to = '';
-  this.id = '';
+  this.timestamp = '';
   this.filter_records()
 },
   async get_data () {

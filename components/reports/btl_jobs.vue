@@ -257,9 +257,15 @@ myBtnClass(val) {
         }
 },
   reset () {
+  this.id = '';
+  this.district_id = '';
+  this.created_id = '';
+  this.assigned_to = '';
+  this.status_id = '';
   this.date_from = '';
   this.date_to = '';
-  this.id = '';
+  this.timestamp = '';
+
   this.filter_records()
 },
   async get_data () {
@@ -279,9 +285,6 @@ myBtnClass(val) {
       this.filter_records();
   },
 filter_records(){
-
-
-
 
 let payload = {
       params:{

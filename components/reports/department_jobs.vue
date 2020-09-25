@@ -215,9 +215,15 @@ myBtnClass(val) {
         }
 },
   reset () {
-  this.date_from = '';
-  this.date_to = '';
-  this.id = '';
+    this.id = '';
+    this.job_type = '';
+    this.department_id = '';
+    this.created_id = '';
+    this.assigned_to = '';
+    this.status_id = '';
+    this.date_from = '';
+    this.date_to = '';
+    this.timestamp = '';
   this.filter_records()
 },
   async get_data () {
@@ -233,7 +239,6 @@ let payload = {
       params:{
         'user_id':this.$auth.user.id,
         'job_type' : this.job_type,
-        'district' : this.district_id,
         'department' : this.department_id,
         'created_by' : this.created_id,
         'assigned_to' : this.assigned_to,
