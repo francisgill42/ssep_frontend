@@ -151,6 +151,96 @@
                         </v-date-picker>
                         </v-menu>
                     </v-col>
+
+
+
+
+
+                    <v-col v-if="editedItem.job_type == 2" cols="6" sm="6" md="6">
+                    <v-dialog
+                      ref="dialog"
+                      v-model="modal2"
+                      :return-value.sync="editedItem.from_time"
+                      persistent
+                      width="290px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="editedItem.from_time"
+                          label="From Time"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-time-picker
+                        v-if="modal2"
+                        v-model="editedItem.from_time"
+                        full-width
+                      >
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="modal2 = false"
+                        >
+                          Cancel
+                        </v-btn>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="$refs.dialog.save(editedItem.from_time)"
+                        >
+                          OK
+                        </v-btn>
+                      </v-time-picker>
+                    </v-dialog>
+                  </v-col>
+
+                  <v-col v-if="editedItem.job_type == 2" cols="6" sm="6" md="6">
+                    <v-dialog
+                      ref="dialog1"
+                      v-model="modal3"
+                      :return-value.sync="editedItem.to_time"
+                      persistent
+                      width="290px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="editedItem.to_time"
+                          label="To Time"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-time-picker :min="editedItem.from_time"
+                        v-if="modal3"
+                        v-model="editedItem.to_time"
+                        full-width
+                      >
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="modal3 = false"
+                        >
+                          Cancel
+                        </v-btn>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="$refs.dialog1.save(editedItem.to_time)"
+                        >
+                          OK
+                        </v-btn>
+                      </v-time-picker>
+                    </v-dialog>
+                  </v-col>
+
+
+
+
                      
                    <v-col v-if="editedItem.status_id == 1 || editedItem.status_id == 6" cols="12" sm="12" md="12">
                     <v-select
@@ -309,6 +399,8 @@
 <script>
   export default {
     data: () => ({
+      modal2: false,
+      modal3 : false,
       search:'',
       img_holder:'',
       dialog: false,
@@ -386,7 +478,9 @@
        v => !!v || 'This field is required',
      ],
       editedIndex: -1,
-      editedItem: {    
+      editedItem: { 
+        from_time: null,
+        to_time : null,    
       change_attachment:'',
        assigned_to:'',
        admin:'',
@@ -612,6 +706,8 @@
             payload.append('attachment',this.editedItem.attachment);
             payload.append('from',this.editedItem._from);
             payload.append('to',this.editedItem._to);
+            payload.append('from_time',this.editedItem.from_time);
+            payload.append('to_time',this.editedItem.to_time);
             payload.append('assigned_to',this.editedItem.assigned_to);
             payload.append('brief',this.editedItem.brief);
 
