@@ -6,11 +6,11 @@
     </v-col>
     
     <v-col> 
-      <BtlJob /> 
-    </v-col>
-    
-    <v-col> 
       <AtlJob /> 
+    </v-col>
+
+     <v-col> 
+      <BtlJob /> 
     </v-col>
   </v-row>
 
@@ -30,26 +30,6 @@ import BtlJob from '~/components/BtlJob.vue'
 import LattestJobs from '~/components/LattestJobs.vue'
 
 export default {
-  components: {
-    TotalJobsCard,
-    AtlJob,
-    BtlJob,
-    LattestJobs
-  },
-  data (){
-    return {
-      items: [],
-    }
-  },
-  created(){
-
-  //  this.$axios.get('doctors').then(res => {
-
-  //         this.dl = res.data.data.length
-  
-  //       });
-
-
-  }
-}
+  components: { TotalJobsCard, AtlJob, BtlJob, LattestJobs }
+}  
 </script>
