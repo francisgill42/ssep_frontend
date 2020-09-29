@@ -1,5 +1,6 @@
 <template>
   <v-data-table
+  :items-per-page="10"
     :headers="headers"
     :items="data"
     :search="search"
@@ -141,6 +142,11 @@ import VueJsonToCsv from '../../node_modules/vue-json-to-csv'
           text: 'address',
           sortable: true,
           value: 'address',
+        },
+        {
+          text: 'Date',
+          sortable: true,
+          value: 'created_at',
         }
       ],
       data: [],

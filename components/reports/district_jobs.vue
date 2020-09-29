@@ -5,10 +5,7 @@
 :items="items"
 class="elevation-1"
 :options.sync="options"
-:items-per-page=10
-:footer-props="{
-itemsPerPageOptions:[10]
-}"
+:items-per-page="10"
 >
 <template v-slot:top>
 <v-toolbar class="primary accent--text title" flat>
@@ -160,7 +157,6 @@ headers: [
         { text: 'Created By', sortable: true, value: 'created_name' },
         { text: 'Assign to', sortable: true, value: 'assigned_name' },
         { text: 'District', sortable: true, value: 'district_name' },
-        { text: 'Department', sortable: true, value: 'department_name' },
         { text: 'Created At', sortable: true, value: 'created_at'},
       ],
 items:[],
@@ -176,7 +172,6 @@ labels : {
       status_name : { title : 'Status' },
       created_name : { title : 'Created By' },
       assigned_name : { title : 'Assigned To' },
-      department_name : { title : 'Department' },
       district_name : { title : 'District' },
       attachment : { title : 'Attachment' },
       created_at:{ title: 'Created At' },

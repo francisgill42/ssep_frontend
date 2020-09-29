@@ -5,10 +5,7 @@
 :items="items"
 class="elevation-1"
 :options.sync="options"
-:items-per-page=10
-:footer-props="{
-itemsPerPageOptions:[10]
-}"
+:items-per-page="10"
 >
 <template v-slot:top>
 <v-toolbar class="primary accent--text title" flat>
