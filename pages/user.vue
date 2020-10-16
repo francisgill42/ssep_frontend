@@ -39,8 +39,7 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                
-                    <v-col cols="4" sm="4" md="4">
+                   <v-col cols="4" sm="4" md="4">
                     <v-select
                         v-model="editedItem.role_id"
                         :items="roles"
@@ -60,6 +59,10 @@
                         item-value="id"
                         label="Department"
                         ></v-select>
+                        <div style="color:red;" v-if="errors.department_id">
+                        The department field is required.
+                        </div>
+                  
                   </v-col>
 
                     <v-col cols="4" sm="4" md="4">
@@ -70,6 +73,9 @@
                         item-value="id"
                         label="District"
                         ></v-select>
+                        <div style="color:red;" v-if="errors.department_id">
+                        The district field is required.
+                        </div>
                   </v-col>
 
 
@@ -84,9 +90,16 @@
                   </v-col>
 
                    <v-col v-if="editedIndex ==  -1" cols="12" sm="12" md="12">
-                    <v-text-field type="password" v-model="editedItem.password" label="Password"></v-text-field>
+                    <v-text-field autocomplete="on" type="password" v-model="editedItem.password" label="Password"></v-text-field>
                     <div style="color:red;" v-if="errors.password">{{errors.password[0]}}</div>
                   </v-col>
+
+                   <v-col v-if="editedIndex ==  -1" cols="12" sm="12" md="12">
+                    <v-text-field autocomplete="on" type="password" v-model="editedItem.confirm_password" label="Confirm Password"></v-text-field>
+                    <div style="color:red;" v-if="errors.confirm_password">{{errors.confirm_password[0]}}</div>
+                  </v-col>
+
+                  
                   
                 
                   <v-col cols="6" sm="6" md="6">
@@ -121,17 +134,16 @@
 
             <v-card-text>
               <v-container>
-                <v-row>
-                  <v-col cols="12" sm="12" md="12">
-                    <v-text-field type="password" v-model="editedItem.change_password" label="New Password"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" sm="12" md="12">
+                 <v-form
+                      ref="change_password_ref"
+                      lazy-validation
+                      >
+                     <v-text-field autocomplete="on" :rules="Rules" type="password" v-model="change_password" label="New Password"></v-text-field>
                      <v-btn small class="primary" text @click="close">Cancel</v-btn>
-                     <v-btn small class="secondary lighten-2" text @click="change_password">Save</v-btn>
-                  </v-col>
+                     <v-btn small class="secondary lighten-2" text @click="change_password_func">Save</v-btn>
                 
-                </v-row>
+              
+                    </v-form>
               </v-container>
             </v-card-text>
 
@@ -225,23 +237,30 @@
       department_id : "",
       name: "",
       email: "",
-     
+      password: "",
+      confirm_password: "",
       mobile_no: "",
       cnic: "",
       district_id: "",
-      change_password: ""
       },
       defaultItem: {
       role_id: "",
       department_id : "",
       name: "",
       email: "",
+      password: "",
+      confirm_password: "",
       mobile_no: "",
       cnic: "",
       district_id: "",
-      change_password: ""
+      confirm_password: ""
       },
+      change_password: "",
       errors:[],
+      Rules : [
+          v => !!v || 'This field is required',
+        ],
+
     }),
 
     computed: {
@@ -276,6 +295,7 @@
       editItem (item) {
         this.editedIndex = this.data.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        this.errors = []
         this.dialog = true
       },
 
@@ -299,60 +319,75 @@
         })
       },
 
-      change_password(){
+      change_password_func(){
+        if(this.$refs.change_password_ref.validate()){
 
-          this.$axios.post('change_password/'+this.editedItem.id,{change_password:this.editedItem.change_password})
+          this.$axios.post('change_password/'+this.editedItem.id,{change_password:this.change_password})
               .then((res) => {
                 if(res.data.success){
                   this.close()
                 }
 
               });   
+              }
       },
 
       save () {
 
-          var payload = {
+         var payload = {
               role_id : this.editedItem.role_id,
               department_id : this.editedItem.department_id,
               name : this.editedItem.name,
               email : this.editedItem.email,
-              password: this.editedItem.password,
               mobile_no : this.editedItem.mobile_no,
               cnic : this.editedItem.cnic,
               district_id : this.editedItem.district_id,
               isActive : this.isActive ? 1 : 0,
           };
+
+
+        
         if (this.editedIndex > -1) {
        //   Object.assign(this.data[this.editedIndex], this.editedItem)
+
+        
+          console.log(payload);
 
             this.$axios.put('user/' + this.editedItem.id, payload)
             .then(res => {
             
               const index = this.data.findIndex(item => item.id == this.editedItem.id)
-              this.data.splice(index, 1,res.data.data);
-              this.close()
+             
+                  if(res.data.success){
+                      this.data.splice(index, 1,res.data.data);
+                      this.close()
+                      this.errors = []
+                      }
+                      else{
+                        this.errors = res.data.errors
+                        }
      
             })
-            .catch(error => console.log(error));
+            .catch(err => console.log(this.errors = err.response.data.errors));
 
 
         } else {
-
-              this.$axios.post('user',payload).then((res) => {
+            payload.password = this.editedItem.password;
+            payload.confirm_password = this.editedItem.confirm_password;
+            
+              this.$axios.post('user',payload)
+              .then((res) => {
                    
                     if(res.data.success){
                       this.data.push(res.data.data)
-                      console.log(res.data);
                       this.close()
+                      this.errors = []
                       }
                       else{
-                      this.errors = res.data.errors
-                        
-                      }
-
-
-            });
+                        this.errors = res.data.errors
+                        }
+            })
+            .catch(err => console.log(this.errors = err.response.data.errors));
         }
      
       },
