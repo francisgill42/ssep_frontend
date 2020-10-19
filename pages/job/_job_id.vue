@@ -179,10 +179,9 @@ async created () {
 methods : {
   get_data () {
     this.$axios.get(`job/${this.job_id}`).then(res => {
-    console.log(res.data.data);
     this.item = res.data.data;
     this.created_by = res.data.data.created_by_user.name;
-    this.assigned_to = res.data.data.assigned_to_user.name;
+    this.assigned_to = res.data.data.assigned_to_user ? res.data.data.assigned_to_user.name : '';
     this.department = res.data.data.department ? res.data.data.department.department : '' ;
     this.district = res.data.data.district ? res.data.data.district.district : '';
     this.keyword = res.data.data.status.keyword;     
