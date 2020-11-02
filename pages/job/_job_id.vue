@@ -58,7 +58,26 @@
       <th>Attachment</th>
       <td>
 
-        <v-dialog v-model="dialog1" max-width="900px">
+
+      <v-dialog v-model="dialog1" persistent width="550px" >
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Open Gallery</v-btn>
+      </template>
+        <v-card >
+        <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text @click="dialog1 = false">X</v-btn>
+        </v-card-actions>
+        <v-carousel hide-delimiters class="pa-3" height="300px">
+
+        <v-carousel-item v-for="i in attachment" :key="i" :src="i"></v-carousel-item>
+        </v-carousel>
+
+        </v-card>
+    </v-dialog>
+
+
+        <!-- <v-dialog v-model="dialog1" max-width="900px">
         <template v-slot:activator="{ on }">
         <div class="pa-5">
               <v-img v-on="on" height="175px" width="250px" :src="attachment"></v-img>
@@ -66,7 +85,7 @@
         </template>
 
         <v-img height="auto" width="100%" :src="attachment"></v-img>
-        </v-dialog> 
+        </v-dialog>  -->
 
       </td>
     </tr>
@@ -119,7 +138,6 @@
 <v-col  cols="4">
 <Chat v-if="delay && !me.master  && me.role_id != 7" :job_id="job_id" :item="item" />
 
-
 <PMUChat v-if="delay && me.master || me.role_id == 1"  class="mt-3" :job_id="job_id" :item="item"/>  
 </v-col>
 </v-row>
@@ -158,7 +176,9 @@ return {
   job_type:'',
   job_id : this.$route.params.job_id,
   msg : '',
-  attachment : '',
+  // attachment : '',
+
+  attachment : []
   
 }
 },
@@ -178,6 +198,7 @@ async created () {
 
 methods : {
   get_data () {
+    
     this.$axios.get(`job/${this.job_id}`).then(res => {
     this.item = res.data.data;
     this.created_by = res.data.data.created_by_user.name;

@@ -2,7 +2,8 @@
 <div>
 <v-card style="max-height:500px" class="d-flex flex-column bordered" 
 >
-<v-toolbar flat class="primary mb-1" dark><strong>Revisions with PMU</strong>
+
+<v-toolbar flat class="primary mb-1" dark><strong>Revisions {{me.id == 2 ? '' : 'with PMU'  }} </strong>
 <v-spacer></v-spacer>
 <AddRevisionPMU v-if="item.status_id != 7"
   :revision_title="'Send Response'"
@@ -65,6 +66,7 @@ holder:'',
 no_records:'',
 no_records_pmu:'',
 me : {}
+
 }),
 async created () {  
   
@@ -112,9 +114,7 @@ async created () {
 methods : {
 
       get_chat (slug) {
-      
-      console.log(this.$auth.user.id);
-
+     
         var payload = { 
           s_id : this.$auth.user.id, 
           r_id : this.$auth.user.master ? this.item.created_by : 2 

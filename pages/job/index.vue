@@ -38,7 +38,7 @@
                   {{get_attachment_name}}
                  <v-icon> mdi-upload</v-icon>
                  </v-btn>   
-                <input required type="file" @change="check_attachment" style="display:none;" accept="image/*" ref="attachmentInput">
+                <input required multiple type="file" @change="check_attachment" style="display:none;" accept="image/*" ref="attachmentInput">
             </v-card-title>
 
             <v-card-text>
@@ -335,16 +335,14 @@
 </template>
 
         <template v-slot:item.actions="{ item }">
-
+      
         <v-icon
-        v-if="(me.role_id == 1 || me.role_id == 2 || me.role_id == 3) && item.status_id == 3"
+        v-if="(me.role_id == 1 || me.role_id == 2) && item.status_id == 3"
         small
         class="mr-2"
         @click="shareItem(item)"
-        >
-        mdi-share-variant
-
-        {{item}}
+        > 
+        mdi-rotate-right-variant
         </v-icon>
 
          <!-- <v-icon
@@ -377,7 +375,7 @@
         </v-icon>
 
         <v-icon
-        v-if="me.role_id == 1 || me.role_id == 2 || me.role_id == 3"
+        v-if="me.role_id == 1 || me.role_id == 2"
         small
         class="mr-2"
         @click="editItem(item)"
@@ -479,9 +477,8 @@
      ],
       editedIndex: -1,
       editedItem: { 
-        from_time: null,
-        to_time : null,    
-      change_attachment:'',
+       from_time: null,
+       to_time : null,  
        assigned_to:'',
        admin:'',
        job_type:0,   
@@ -490,22 +487,14 @@
        _to: new Date().toISOString().substr(0, 10)
       },
 
-      defaultItem: {
-        admin:'',
-        job_type:0,
-       assigned_to:'',    
-       task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachment:'',_from:'',_to:''
-      },
-
     }),
 
     computed: {
 
      
         get_attachment_name(){
-        var res = '';
-        res = this.editedIndex === -1 ? 'Upload Attachment' : this.editedItem.attachment;
-        return this.editedItem.attachment.name ? this.editedItem.attachment.name : res ;
+
+        return `Total Files (${this.editedItem.attachment.length})`;
         },
 
 
@@ -521,31 +510,14 @@
     },
 
     created () {
-      this.initialize()
+        this.initialize()
 
-      // this.headers.filter(v => console.log(v.text))
-
-   
-
-
-      if(this.me.id != 2){
-        this.headers = this.headers.filter(v => v.text != 'Approve/Reject' );
-      }
-
-      
-
-
-
+        if(this.me.id != 2){
+          this.headers = this.headers.filter(v => v.text != 'Approve/Reject' );
+        }
     },
 
     methods: {
-
-      //  res(item){
-      //    if(item.assigned_to){
-      //     return  item.assigned_to_user.name
-      //    }
-      //   return 'not assigned';
-      // },
 
        status_class(val) {
   
@@ -645,16 +617,14 @@
 
       this.$axios.get('department').then(res => this.departments = res.data);
 
-
-
       },
 
         onPick_attachment () { 
-        this.$refs.attachmentInput.click() 
+          this.$refs.attachmentInput.click() 
         },
 
         check_attachment(e) { 
-        this.editedItem.attachment = e.target.files[0] || ''; 
+          this.editedItem.attachment = e.target.files || ''; 
         },
         shareItem (item) {
            this.editedIndex = this.data.indexOf(item)
@@ -683,16 +653,8 @@
             
             });
       },
+      close () { this.dialog = false },
 
-      close () {
-        this.dialog = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
-
-  
       save () {
           
         let payload = new FormData();
@@ -703,7 +665,10 @@
             payload.append('district_id',this.editedItem.district_id);
             payload.append('created_by',this.$auth.user.id);
             payload.append('department_id',this.editedItem.department_id);
-            payload.append('attachment',this.editedItem.attachment);
+           
+            for(var j = 0; j < this.editedItem.attachment.length; j++){
+              payload.append(`attachment[${j}]`, this.editedItem.attachment[j]);  
+            }  
             payload.append('from',this.editedItem._from);
             payload.append('to',this.editedItem._to);
             payload.append('from_time',this.editedItem.from_time);

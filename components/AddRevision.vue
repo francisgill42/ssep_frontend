@@ -27,7 +27,7 @@
     {{get_attachment_name}}
     <v-icon> mdi-upload</v-icon>
     </v-btn>   
-    <input required type="file" @change="check_attachment" style="display:none;" accept="image/*" ref="attachmentInput">
+    <input required multiple type="file" @change="check_attachment" style="display:none;" accept="image/*" ref="attachmentInput">
     </v-toolbar>
 
     <v-row>
@@ -109,7 +109,7 @@ methods : {
         },
 
         check_attachment(e) { 
-        this.attachment = e.target.files[0] || ''; 
+        this.attachment = e.target.files || ''; 
         },
 
         add_revision () {
@@ -124,17 +124,15 @@ methods : {
           r_id : this.me.master || this.me.role_id == 3 || this.$auth.user.role_id == 4 || this.$auth.user.role_id == 3 ? this.item.created_by : this.item.assigned_to ,
           msg : this.msg
           }
-            console.log(revision);
             this.$axios.post(`revision`,revision).then(res => {
             
             this.$nuxt.$emit('revision',res.data.data);
 
               let payload = new FormData();
-            
-              payload.append('attachment',this.attachment);
 
-             
-
+              for(var j = 0; j < this.attachment.length; j++){
+                payload.append(`attachment[${j}]`, this.attachment[j]);  
+              } 
 
               this.$axios.post('update_attachment/' + this.job_id, payload)
                 .then(res => {

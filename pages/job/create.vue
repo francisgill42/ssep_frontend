@@ -9,12 +9,13 @@
                   {{get_attachment_name}}
                  <v-icon> mdi-upload</v-icon>
                  </v-btn>   
-                <input required type="file" @change="check_attachment" style="display:none;" accept="image/*" ref="attachmentInput">
+                <input required multiple type="file" @change="check_attachment" style="display:none;" accept="image/*" ref="attachmentInput">
             </v-card-title>
 
             <v-card-text>
                 
               <v-container>
+                
                 <v-row>
                       
                     <v-col cols="4" sm="4" md="4">
@@ -253,7 +254,7 @@
       change_attachment:'',
        //assigned_to:'',   
        job_type:0,
-       task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachment:'', 
+       task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachments:'', 
        _from: '',
        _to: '',
       },
@@ -263,7 +264,7 @@
         to_time : null,
        job_type:0,
        assigned_to:'',    
-       task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachment:'',_from:'',_to:''
+       task_title:'',nature_of_task:'',brief:'',deliverables:'',district_id:'',created_by:'',department_id:'',attachments:'',_from:'',_to:''
       },
 
     }),
@@ -271,9 +272,10 @@
     computed: {
         
        get_attachment_name(){
-              var res = '';
-              res = this.editedIndex === -1 ? 'Upload Attachment' : this.editedItem.attachment;
-              return this.editedItem.attachment.name ? this.editedItem.attachment.name : res ;
+
+          let attachments = this.editedItem.attachments;
+          
+          return attachments.length ? 'Total Files (' + attachments.length + ')' : 'Upload Attachment' ;
       },
        getEndDate() {
      var date =  new Date();
@@ -311,12 +313,11 @@
         this.$refs.attachmentInput.click() 
         },
 
-        check_attachment(e) { 
-        this.editedItem.attachment = e.target.files[0] || ''; 
+        check_attachment(e) {
+           this.editedItem.attachments = e.target.files || '';
         },
   
       save () {
-
 
           
         let payload = new FormData();
@@ -327,7 +328,11 @@
             payload.append('district_id',this.editedItem.district_id);
             payload.append('created_by',this.$auth.user.id);
             payload.append('department_id',this.editedItem.department_id);
-            payload.append('attachment',this.editedItem.attachment);
+
+            for(var j = 0; j < this.editedItem.attachments.length; j++){
+              payload.append(`attachment[${j}]`, this.editedItem.attachments[j]);  
+            }  
+
             payload.append('from',this.editedItem._from);
             payload.append('to',this.editedItem._to);
             payload.append('from_time',this.editedItem.from_time);
