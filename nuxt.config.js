@@ -1,4 +1,6 @@
 const colors = require('vuetify/es5/util/colors').default
+import axios from 'axios'
+
 require('dotenv').config()
 
 module.exports = {
@@ -98,6 +100,15 @@ router: {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+    }
+  },
+  generate: {
+    routes() {
+      return axios.get('https://backend.dev-ssep.tk/api/job/').then(res => {
+        return res.data.data.map(j => {
+          return 'job/' + j.id
+        })
+      })
     }
   }
 }
