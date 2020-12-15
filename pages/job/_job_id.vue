@@ -1,5 +1,5 @@
 <template>
-
+<div>
 <v-row>
 
 <v-snackbar color="primary" v-model="snackbar" :top="'top'">
@@ -58,10 +58,39 @@
       <th>Attachment</th>
       <td>
 
+        <v-row>
+   <v-col
+      v-for="n in attachment"
+      :key="n"
+      cols="4"
+    >
+      <v-img
+        :src="`${n}`"
+        :lazy-src="`${n}`"
+        aspect-ratio="1"
+        class="grey lighten-2"
+      >
+        <template v-slot:placeholder>
+          <v-row
+            class="fill-height ma-0"
+            align="center"
+            justify="center"
+          >
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
+    </v-col>
+</v-row>
+
 
       <v-dialog v-model="dialog1" persistent width="550px" >
       <template v-slot:activator="{ on }">
         <v-btn color="primary" dark v-on="on">Open Gallery</v-btn>
+        
       </template>
         <v-card >
         <v-card-actions>
@@ -136,11 +165,50 @@
 </v-col>
 <v-col cols="1"></v-col>
 <v-col  cols="4">
+
+<v-row>
+
+   <v-col
+      v-for="n in attachment"
+      :key="n"
+      cols="4"
+    >
+      <v-img
+        :src="`${n}`"
+        :lazy-src="`${n}`"
+        @click="downloadImg(n)"
+        aspect-ratio="1"
+        class="grey lighten-2"
+      >
+     
+        <template v-slot:placeholder>
+          <v-row
+            class="fill-height ma-0"
+            align="center"
+            justify="center"
+          >
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
+    </v-col>
+</v-row>
+
 <Chat v-if="delay && !me.master  && me.role_id != 7" :job_id="job_id" :item="item" />
 
 <PMUChat v-if="delay && me.master || me.role_id == 1"  class="mt-3" :job_id="job_id" :item="item"/>  
+
+
 </v-col>
+   
 </v-row>
+
+
+
+</div>
 </template>
 
 <script>
@@ -197,6 +265,16 @@ async created () {
 
 
 methods : {
+
+      downloadImg(url) {
+      this.$axios.get(url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          saveAs(blob, 'image_name.jpg');
+        });
+      console.log('downloading', url);
+    },
+   
   get_data () {
     
     this.$axios.get(`job/${this.job_id}`).then(res => {
