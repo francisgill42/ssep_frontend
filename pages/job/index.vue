@@ -31,7 +31,7 @@
           <v-card>
             <v-form ref="form" lazy-validation>
             <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
+              <span class="headline">Edit Job</span>
               <v-spacer></v-spacer>
                
                 <v-btn :rules="Rules" class="secondary" @click="onPick_attachment">
@@ -55,7 +55,7 @@
                     </v-col>
 
                      <v-col cols="4" sm="4" md="4">
-                          <v-select
+                        <v-select
                         :rules="Rules"  
                         v-model="editedItem.job_type"
                         :items="[{id:1,job_type:'Atl'},{id:2,job_type:'Btl'}]"
@@ -267,6 +267,31 @@
            
         </v-dialog>
 
+          <v-dialog v-model="add_more_dialog" max-width="450px">
+            <v-form ref="add_attachment_form"> 
+
+          <v-card class="text-center pt-12" min-height="450px">
+               <v-container>
+                 <v-col>
+                <v-btn fab color=" primary mt-16" class="white--text" @click="onPick_add_attachment">
+                <input required multiple type="file" @change="check_add_attachment" style="display:none;" accept="image/*" ref="add_attachmentInput">        
+                <v-icon dark>mdi-cloud-upload</v-icon>
+                </v-btn>
+
+                 </v-col>
+                 <v-col>
+                   Add More Attachments
+                 </v-col>
+                 <v-btn small class="secondary" @click="onPick_add_attachment_submit">
+                  Submit
+                </v-btn>
+               </v-container>
+          </v-card>
+        
+            </v-form>
+          
+        </v-dialog>
+
         <v-dialog v-model="dialog1" max-width="500px">
           <v-card>
             <v-form ref="form" lazy-validation>
@@ -345,6 +370,16 @@
         mdi-rotate-right-variant
         </v-icon>
 
+       <v-icon
+        v-if="(me.role_id == 1 || me.role_id == 2) && item.status_id == 3"
+        small
+        class="mr-2"
+        @click="multiple_box(item.id)"
+        > 
+        mdi-image-multiple
+        </v-icon>
+        
+
          <!-- <v-icon
         v-if="me.id == 2"
         small
@@ -397,6 +432,7 @@
 <script>
   export default {
     data: () => ({
+      add_more_dialog: false,
       modal2: false,
       modal3 : false,
       search:'',
@@ -486,6 +522,7 @@
        _from: new Date().toISOString().substr(0, 10),
        _to: new Date().toISOString().substr(0, 10)
       },
+      add_attachment : '',
 
     }),
 
@@ -495,12 +532,8 @@
         get_attachment_name(){
 
         return `Total Files (${this.editedItem.attachment.length})`;
+
         },
-
-
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Job' : 'Edit Job'
-      },
     },
 
     watch: {
@@ -565,7 +598,6 @@
 
           item.status.id = res.data.data.status.id;
           item.status.keyword = res.data.data.status.keyword;
-          console.log(item,res.data.data.status.id);
         });
       },
       Reject(item){
@@ -574,7 +606,6 @@
          confirm('Are you sure you want to reject this item?') && 
          this.$axios.get('approve_reject/'+item.id + '/r')
             .then((res) => {
-              console.log(res);
               const index = this.data.indexOf(item)
               this.data.splice(index, 1)
             
@@ -605,8 +636,6 @@
       
       else{ job_slug = 'job' }
 
-
-
       this.$axios.get(job_slug).then(res => this.data = res.data.data);
 
       this.$axios.get(`user_2be_assigned/${id}/${master}/${role_id}`).then(res => this.users = res.data.data );
@@ -626,6 +655,13 @@
         check_attachment(e) { 
           this.editedItem.attachment = e.target.files || ''; 
         },
+        check_add_attachment (e) {
+          this.add_attachment = e.target.files || ''; 
+        },
+         onPick_add_attachment () { 
+         this.$refs.add_attachmentInput.click(); 
+        },
+       
         shareItem (item) {
            this.editedIndex = this.data.indexOf(item)
            this.editedItem = Object.assign({}, item)
@@ -654,10 +690,37 @@
             });
       },
       close () { this.dialog = false },
+      close_add_attachment () { this.add_more_dialog = false },
+      multiple_box(v){
+
+        this.editedItem.id = v;
+        this.add_more_dialog = true
+      },
+
+       onPick_add_attachment_submit(){
+        
+            if(this.$refs.add_attachment_form.validate()){
+
+              var payload = new FormData();
+
+              for(var j = 0; j < this.add_attachment.length; j++){
+                  payload.append(`attachment[${j}]`, this.add_attachment[j]);  
+                } 
+
+            this.$axios.post('add_attachment/' + this.editedItem.id, payload)
+            .then(res => {
+
+            this.close_add_attachment()
+            this.$refs.add_attachment_form.reset()
+
+            }).catch(error => console.log(error));
+
+            }
+        },
 
       save () {
           
-        let payload = new FormData();
+        var payload = new FormData();
             payload.append('job_type',this.editedItem.job_type);
             payload.append('task_title',this.editedItem.task_title);
             payload.append('nature_of_task',this.editedItem.nature_of_task);

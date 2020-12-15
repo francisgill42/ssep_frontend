@@ -57,40 +57,9 @@
       <tr>
       <th>Attachment</th>
       <td>
-
-        <v-row>
-   <v-col
-      v-for="n in attachment"
-      :key="n"
-      cols="4"
-    >
-      <v-img
-        :src="`${n}`"
-        :lazy-src="`${n}`"
-        aspect-ratio="1"
-        class="grey lighten-2"
-      >
-        <template v-slot:placeholder>
-          <v-row
-            class="fill-height ma-0"
-            align="center"
-            justify="center"
-          >
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
-    </v-col>
-</v-row>
-
-
       <v-dialog v-model="dialog1" persistent width="550px" >
       <template v-slot:activator="{ on }">
         <v-btn color="primary" dark v-on="on">Open Gallery</v-btn>
-        
       </template>
         <v-card >
         <v-card-actions>
@@ -169,18 +138,22 @@
 <v-row>
 
    <v-col
-      v-for="n in attachment"
-      :key="n"
+      v-for="(n, i) in attachment"
+      :key="i"
       cols="4"
     >
       <v-img
         :src="`${n}`"
         :lazy-src="`${n}`"
-        @click="downloadImg(n)"
         aspect-ratio="1"
         class="grey lighten-2"
       >
-     
+      <v-icon dark color="secondary" @click="downloadImg(n)">mdi-download</v-icon>
+
+      <v-spacer></v-spacer>
+
+      <v-icon dark color="error" @click="deleteImg(n)">mdi-delete</v-icon>
+
         <template v-slot:placeholder>
           <v-row
             class="fill-height ma-0"
@@ -194,6 +167,7 @@
           </v-row>
         </template>
       </v-img>
+
     </v-col>
 </v-row>
 
@@ -215,6 +189,7 @@
 import PMUChat from '@/components/PMUChat';
 import Chat from '@/components/Chat';
 import AddRevision from '@/components/AddRevision';
+import axios from 'axios';
 export default {
 components : { PMUChat:PMUChat,Chat:Chat,AddRevision:AddRevision },
 data () {
@@ -266,13 +241,32 @@ async created () {
 
 methods : {
 
+      deleteImg(arg){
+        this.attachment.splice(this.attachment.indexOf(arg),1);
+      },
+
       downloadImg(url) {
-      this.$axios.get(url)
-        .then((response) => response.blob())
-        .then((blob) => {
-          saveAs(blob, 'image_name.jpg');
-        });
-      console.log('downloading', url);
+      var payload = {
+        url : url,
+        method : 'GET',
+        responseType : 'blob',
+      };
+      axios(payload)
+      .then((res) => {
+
+        var url  = res.config.url;
+        var pos = url.lastIndexOf('.') + 1;
+        var ext = url.substr(pos);
+        var fileUrl = window.URL.createObjectURL(new Blob([res.data]));
+        var fileLink  = document.createElement('a');
+            fileLink.href = fileUrl;
+
+        fileLink.setAttribute('download' ,`image.${ext}`);
+        document.body.appendChild(fileLink);
+
+        fileLink.click();
+      });
+       
     },
    
   get_data () {

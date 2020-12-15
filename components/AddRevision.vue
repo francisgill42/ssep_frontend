@@ -23,7 +23,7 @@
     >
     <v-toolbar flat class="primary mb-3" dark><strong>Revision</strong>
     <v-spacer></v-spacer>
-    <v-btn class="secondary lighten-2" @click="onPick_attachment">
+    <v-btn small class="secondary lighten-2" @click="onPick_attachment">
     {{get_attachment_name}}
     <v-icon> mdi-upload</v-icon>
     </v-btn>   
@@ -47,6 +47,7 @@
     color="secondary lighten-2"
     class="mr-4 mx-5"
     @click="add_revision"
+    small
     >
     Save
     </v-btn>
@@ -54,8 +55,9 @@
     <v-col cols="2">
     <v-btn
     color="primary"
-    class="mr-4 mx-5"
+    class="mr-4"
     @click="dialog = false"
+    small
     >
     close
     </v-btn>
@@ -95,11 +97,8 @@ v => !!v || 'This field is required',
 ],
 }),
  created () {   
-
-   this.$nuxt.$emit('changeTitle','francis')
-
-
-this.me = this.$auth.user;
+  
+  this.me = this.$auth.user;
 
 },
 watch: { },
