@@ -62,7 +62,7 @@ this.snackbar = true
 this.msg = e.response.data.error 
 setTimeout(() => {
 this.loading = false
-// location.reload();
+location.reload();
 },3000);
 })
 }

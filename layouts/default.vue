@@ -68,7 +68,7 @@ label:'Logout'
 }
 }
 },
-created () {
+mounted () {
   this.get_menus();
 },
 methods:{
@@ -77,10 +77,6 @@ async logout() {
 },
 get_menus () {
 
-  var client_menu = [
-            { icon: 'mdi-apps', title: 'Home',to: '/' },
-            { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
-  ];
 
   var user_and_subuser_menu = [
             { icon: 'mdi-apps', title: 'Home',to: '/' },
@@ -94,29 +90,16 @@ get_menus () {
             { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
             { icon: 'mdi-codepen', title: 'Department',to: '/department' },
             { icon: 'mdi-image-area', title: 'District',to: '/district' },
+            { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' },
   ];
 
 
 
-  var pmu_menu = [
+  var monitoring_menu = [
             { icon: 'mdi-apps', title: 'Home',to: '/' },
             { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
-            { icon: 'mdi-account', title: 'Users',to: '/user' },
             { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
-            { icon: 'mdi-codepen', title: 'Department',to: '/department' },
-            { icon: 'mdi-image-area', title: 'District',to: '/district' },
-  ];
-
-  var master_menu = [
-            { icon: 'mdi-apps', title: 'Home',to: '/' },
-            { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
-            { icon: 'mdi-account', title: 'Users',to: '/user' },
-            { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
-            { icon: 'mdi-codepen', title: 'Department',to: '/department' },
-            { icon: 'mdi-image-area', title: 'District',to: '/district' },
-            { icon: 'mdi-briefcase-check', title: 'Role',to: '/role' },
-            { icon: 'mdi-briefcase-check', title: 'Status',to: '/status' },
-            { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' },      
+            { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' }, 
   ];
 
   var all_menu = [
@@ -128,37 +111,29 @@ get_menus () {
             { icon: 'mdi-image-area', title: 'District',to: '/district' },
             { icon: 'mdi-briefcase-check', title: 'Role',to: '/role' },    
             { icon: 'mdi-briefcase-check', title: 'Status',to: '/status' },  
+            { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' },
   ];
 
 if(this.$auth.user){
-  if(this.$auth.user.master == 1 && this.$auth.user.id == 1){
-    this.menus = master_menu;
-  }
-  else if(this.$auth.user.master == 1 && this.$auth.user.id == 2){
-  this.menus = pmu_menu;
-  }
-
-  else if(this.$auth.user.role_id == 1 || this.$auth.user.role_id == 2 ){
-  this.menus = admin_and_subadmin_menu;
-  }
-
-  else if(this.$auth.user.role_id == 3 || this.$auth.user.role_id == 4){
-  this.menus = user_and_subuser_menu;
-  }
-  else if(this.$auth.user.role_id == 7){
-  this.menus = client_menu;
-  }
-  else{
+  if(this.$auth.user.master){
     this.menus = all_menu;
   }
-}else{
-  this.menus = [];
-}
-
+  else {
+      if(this.$auth.user.role.role == 'PMU'){
+        this.menus = monitoring_menu;
+      }
+      else if(this.$auth.user.role.role == 'Team Head' || this.$auth.user.role.role == 'Team Sub Head'){
+        this.menus = admin_and_subadmin_menu;
+      }
+      else if(this.$auth.user.role.role == 'User'){
+        this.menus = user_and_subuser_menu;
+      }
+      else{
+        this.menus = [];
+      }
+  }
+} 
   
-
-
-
 }
 }
 }
