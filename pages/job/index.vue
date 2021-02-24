@@ -616,27 +616,25 @@
       initialize () {
 
       this.me = this.$auth.user;
-      var {id,master,role_id} = this.me;
+      var {id,master,role,role_id} = this.me;
 
       var job_slug = '';
-      
-      if(master == 1 || role_id == 1){
-        job_slug = role_id == 1 ? 'job' : 'jobs_for_pmu';
+
+      if(role.role == 'PMU'){
+        job_slug = 'jobs_for_pmu'
       }
-      else if (role_id == 2){
-        job_slug = 'jobs_by_created_and_assigned/' + id;
+      else if(role.role == 'Team Head' || role.role == 'Team Sub Head'){ 
+       job_slug = 'jobs_by_created_and_assigned/' + id;
       }
-      else if (role_id == 3 || role_id == 4){
-        job_slug = 'jobs_by_assigned_user/' + id;
-      }
-      
-       else if (role_id == 7){
-        job_slug = 'jobs_for_client';
+      else if(role.role == 'Team Head' || role.role == 'Team Sub Head'){ 
+       job_slug = 'jobs_by_created_and_assigned/' + id;
       }
       
       else{ job_slug = 'job' }
 
-      this.$axios.get(job_slug).then(res => this.data = res.data.data);
+      this.$axios.get(job_slug).then(res => {
+        console.log(this.data = res.data.data,job_slug);
+      });
 
       this.$axios.get(`user_2be_assigned/${id}/${master}/${role_id}`).then(res => this.users = res.data.data );
 
