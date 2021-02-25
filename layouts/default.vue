@@ -23,10 +23,12 @@ v-model="drawer" :clipped="clipped" fixed app>
 <v-app-bar app class="secondary">
 <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="white--text"/>
 <!-- {{title}} -->
-<span class="white--text" v-if="this.$auth.user" > Welcome, <b>{{this.$auth.user.name}}</b></span>
-<v-spacer />
+<span class="white--text" v-if="this.$auth.user" > Welcome, <b>{{this.$auth.user.email}}</b></span>
+  <!-- &nbsp;<b>{{this.$auth.user.role.role}}</b> -->
+  <v-spacer />
 <v-icon class="white--text" @click="logout">{{ logout_btn.icon }}</v-icon>
-<!-- <span v-if="this.$auth.user" > Welcome, <b>{{this.$auth.user.name}}</b> -->
+<!-- <span v-if="this.$auth.user" >  -->
+
 <!-- <v-btn text> -->
 <!-- {{logout_btn.label}} -->
 

@@ -337,7 +337,7 @@
     <v-chip  dark small :class="status_class(item.status.id)">
       {{item.status.keyword}}
       </v-chip>
-      <v-chip v-if="item.status.id == 1 && me.role_id != 1" small color="secondary"> New </v-chip>
+      <v-chip v-if="item.status.id == 1" small color="secondary"> New </v-chip>
   </template>
 
   <template v-slot:item.assigned_to_user.name="{ item }">
@@ -345,7 +345,7 @@
      <strong v-else>Not Assigned</strong>
   </template>
 
-<template v-if="me.id == 2" v-slot:item.approve="{ item }">
+<template v-if="me.role && me.role.role == 'PMU'" v-slot:item.AR="{ item }">
   <div class="text-center">
     <div v-if="item.status.id == 8">
       <v-btn x-small class="ma-2" color="primary" dark @click="Approve(item)">Approve
@@ -497,8 +497,7 @@
           value: 'created_at',
           
         },
-        { text: 'Approve/Reject', value: 'approve', sortable: true, },
-        { text: 'Actions', value: 'actions', sortable: true, },
+        
 
       ],
       admins:[],
@@ -545,12 +544,23 @@
     created () {
         this.initialize()
 
-        if(this.me.id != 2){
-          this.headers = this.headers.filter(v => v.text != 'Approve/Reject' );
-        }
+        this.setCustomHeader()
+
     },
 
+
     methods: {
+
+        setCustomHeader(){
+          if(this.me.role){
+            if(this.me.role.role == 'PMU'){
+              this.headers.push({sortable:true,text:'Approve/Reject',value:'AR'})
+            }
+          }
+          this.headers.push({sortable:true,text:'Actions',value:'actions'})
+
+        },
+
 
        status_class(val) {
   
@@ -620,14 +630,16 @@
 
       var job_slug = '';
 
-      if(role.role == 'PMU'){
-        job_slug = 'jobs_for_pmu'
-      }
-      else if(role.role == 'Team Head' || role.role == 'Team Sub Head'){ 
-       job_slug = 'jobs_by_created_and_assigned/' + id;
-      }
-      else if(role.role == 'Team Head' || role.role == 'Team Sub Head'){ 
-       job_slug = 'jobs_by_created_and_assigned/' + id;
+      if(role){
+          if(role.role == 'PMU'){
+          job_slug = 'jobs_for_pmu'
+          }
+          else if(role.role == 'Team Head' || role.role == 'Team Sub Head'){ 
+          job_slug = 'jobs_by_created_and_assigned/' + id;
+          }
+          else if(role.role == 'Team Head' || role.role == 'Team Sub Head'){ 
+          job_slug = 'jobs_by_created_and_assigned/' + id;
+          }
       }
       
       else{ job_slug = 'job' }

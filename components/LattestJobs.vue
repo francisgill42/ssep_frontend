@@ -14,7 +14,7 @@
     <v-chip dark small :class="status_class(item.status.id)">
       {{item.status.keyword}} 
     </v-chip>
-    <v-chip v-if="item.status.id == 1 && me.role_id != 1" small color="secondary"> New </v-chip>
+    <v-chip v-if="item.status.id == 1" small color="secondary"> New </v-chip>
 
   </template>
 
