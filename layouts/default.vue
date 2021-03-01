@@ -116,18 +116,19 @@ get_menus () {
             { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' },
   ];
 
+
 if(this.$auth.user){
   if(this.$auth.user.master){
     this.menus = all_menu;
   }
   else {
-      if(this.$auth.user.role.role == 'PMU'){
+      if(this.$auth.user.role_id == 4){
         this.menus = monitoring_menu;
       }
-      else if(this.$auth.user.role.role == 'Team Head' || this.$auth.user.role.role == 'Team Sub Head'){
+      else if(this.$auth.user.role_id == 1 || this.$auth.user.role_id == 2){
         this.menus = admin_and_subadmin_menu;
       }
-      else if(this.$auth.user.role.role == 'User'){
+      else if(this.$auth.user.role_id == 3){
         this.menus = user_and_subuser_menu;
       }
       else{
