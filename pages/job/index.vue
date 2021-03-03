@@ -345,7 +345,7 @@
      <strong v-else>Not Assigned</strong>
   </template>
 
-<template v-if="me.role && me.role.role == 'PMU'" v-slot:item.AR="{ item }">
+<template v-if="me.role && me.role_id == 4" v-slot:item.AR="{ item }">
   <div class="text-center">
     <div v-if="item.status.id == 8">
       <v-btn x-small class="ma-2" color="primary" dark @click="Approve(item)">Approve
@@ -553,7 +553,7 @@
 
         setCustomHeader(){
           if(this.me.role){
-            if(this.me.role.role == 'PMU'){
+            if(this.me.role_id == 4){
               this.headers.push({sortable:true,text:'Approve/Reject',value:'AR'})
             }
           }
@@ -631,15 +631,13 @@
       var job_slug = '';
 
       if(role){
-          if(role.role == 'PMU'){
+          if(role_id == 4){
           job_slug = 'jobs_for_pmu'
           }
-          else if(role.role == 'Team Head' || role.role == 'Team Sub Head'){ 
+          else if(role_id == 2 || role_id == 3){ 
           job_slug = 'jobs_by_created_and_assigned/' + id;
           }
-          else if(role.role == 'Team Head' || role.role == 'Team Sub Head'){ 
-          job_slug = 'jobs_by_created_and_assigned/' + id;
-          }
+          
       }
       
       else{ job_slug = 'job' }
