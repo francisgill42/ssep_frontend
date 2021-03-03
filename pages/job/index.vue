@@ -361,14 +361,14 @@
 
         <template v-slot:item.actions="{ item }">
       
-        <v-icon
+        <!-- <v-icon
         v-if="(me.role_id == 1 || me.role_id == 2) && item.status_id == 3"
         small
         class="mr-2"
         @click="shareItem(item)"
         > 
         mdi-rotate-right-variant
-        </v-icon>
+        </v-icon> -->
 
        <v-icon
         v-if="(me.role_id == 1 || me.role_id == 2) && item.status_id == 3"
