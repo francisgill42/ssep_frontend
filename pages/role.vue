@@ -79,11 +79,11 @@
       dialog: false,
       search:'',
       headers: [
-        // {
-        //   text: 'id',
-        //   sortable: true,
-        //   value: 'id',
-        // },
+        {
+          text: 'id',
+          sortable: true,
+          value: 'id',
+        },
         {
           text: 'role',
           sortable: true,

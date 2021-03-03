@@ -135,7 +135,7 @@
 <v-col cols="1"></v-col>
 <v-col  cols="4">
 
-<v-row>
+<!-- <v-row>
 
    <v-col
       v-for="(n, i) in attachment"
@@ -169,7 +169,7 @@
       </v-img>
 
     </v-col>
-</v-row>
+</v-row> -->
 
 <Chat v-if="delay && !me.master  && me.role_id != 7" :job_id="job_id" :item="item" />
 
