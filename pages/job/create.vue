@@ -319,6 +319,8 @@
   
       save () {
 
+        // console.log(this.editedItem.attachments);
+
           
         let payload = new FormData();
             payload.append('job_type',this.editedItem.job_type);
@@ -343,11 +345,11 @@
 
             if(this.$refs.form.validate()){
 
-              this.loading = true;
+              // this.loading = true;
           
              this.$axios.post('job',payload).then((res) => {
                this.$router.push('/job/');
-               this.loading = false;
+              //  this.loading = false;
              });
         }
      
