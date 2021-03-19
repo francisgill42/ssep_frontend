@@ -60,55 +60,62 @@
         },
 
          {
-          text: 'Name',
+          text: 'Activity Name',
           sortable: true,
-          value: 'name',
+          value: 'activity_name',
         },
 
-  
-        {
-          text: 'CNIC',
-          sortable: true,
-          value: 'cnic',
-        },
-
-        {
-          text: 'Mobile',
-          sortable: true,
-          value: 'mobile_no',
-        },
-
-        {
+       {
           text: 'District',
           sortable: true,
           value: 'district',
         },
 
-       
+          
 
-        {
+
+        
+           {
           text: 'Village',
           sortable: true,
           value: 'village',
         },
 
 
-        {
-          text: 'Event',
+        
+           {
+          text: 'Distric Officer Name',
           sortable: true,
-          value: 'activity_event',
+          value: 'DO_name',
         },
 
+
+      
+
          {
-          text: 'Supplier Name',
+          text: 'No of Male',
           sortable: true,
-          value: 'supplier_name',
+          value: 'male',
         },
+
+       {
+          text: 'No of Female',
+          sortable: true,
+          value: 'female',
+        },
+      
+          
+        {
+          text: 'Location',
+          sortable: true,
+          value: 'map_location',
+        },
+
         
-         {
+           {
           text: 'Submitted',
           sortable: true,
-          value: 'created_at',
+          value: 'date',
         },
 
 
@@ -127,7 +134,7 @@
     methods: {
       initialize () {
 
-        this.$axios.get('beneficiaryform').then(res => {
+        this.$axios.get('fieldactivity').then(res => {
           this.data = res.data
             // console.log(res.data);
         });
@@ -137,7 +144,7 @@
    
       go_to_single(item){
 
-        this.$router.push('beneficiaryform/' + item.id);
+        this.$router.push('fieldactivity/' + item.id);
       }
 
     

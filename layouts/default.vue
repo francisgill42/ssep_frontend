@@ -109,12 +109,14 @@ get_menus () {
             { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
             { icon: 'mdi-account', title: 'Users',to: '/user' },
             // { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
-            { icon: 'mdi-surround-sound', title: 'Beneficiary Form',to: '/beneficiaryform' },
-            { icon: 'mdi-surround-sound', title: 'Callcenter Form',to: '/callcenterform' },
+
+            { icon: 'mdi-file-document', title: 'Beneficiary Form',to: '/beneficiaryform' },
+            { icon: 'mdi-file-document', title: 'Field Activity Form',to: '/fieldactivity' },
+            { icon: 'mdi-file-document', title: 'Callcenter Form',to: '/callcenterform' },
             { icon: 'mdi-codepen', title: 'Department',to: '/department' },
             { icon: 'mdi-image-area', title: 'District',to: '/district' },
             { icon: 'mdi-briefcase-check', title: 'Role',to: '/role' },    
-            { icon: 'mdi-briefcase-check', title: 'Status',to: '/status' },  
+            { icon: 'mdi-arrange-bring-forward', title: 'Status',to: '/status' },  
             { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' },
   ];
 

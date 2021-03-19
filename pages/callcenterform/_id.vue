@@ -146,16 +146,25 @@
                   {{f.gender}} - {{f.age}}
               </tr>
         </td> -->
+
+
         
+<!--         
         <tr>
           <th>User</th>
           <td>{{ user }}</td>
-        </tr>
+        </tr> -->
 
          <tr>
           <th>Submitted</th>
           <td>{{ item.created_at }}</td>
         </tr>
+
+        <tr>
+          <th>Date</th>
+          <td>{{ item.date }}</td>
+        </tr>
+
 
       </tbody>
     </template>

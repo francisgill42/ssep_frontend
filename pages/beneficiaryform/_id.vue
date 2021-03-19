@@ -90,15 +90,17 @@
         </tr> 
 
 
-        <tr>
+        <!-- <tr>
           <th>User</th>
-          <td>{{ user }}</td>
-        </tr>
+          <td>{{ item }}</td>
+        </tr> -->
 
          <tr>
           <th>Submitted</th>
           <td>{{ item.created_at }}</td>
         </tr>
+
+
 
       </tbody>
     </template>

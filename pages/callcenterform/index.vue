@@ -89,7 +89,7 @@
         },
 
          {
-          text: 'Date',
+          text: 'Submitted',
           sortable: true,
           value: 'date',
         },
