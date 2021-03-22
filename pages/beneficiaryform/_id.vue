@@ -90,10 +90,10 @@
         </tr> 
 
 
-        <!-- <tr>
+         <tr>
           <th>User</th>
-          <td>{{ item }}</td>
-        </tr> -->
+          <td>{{ user }}</td>
+        </tr> 
 
          <tr>
           <th>Submitted</th>
@@ -112,6 +112,7 @@
   export default {
     data () {
       return {
+        dialog1 : '',
         resultls: "{}",
         item: {},
         user:'',
@@ -119,13 +120,14 @@
         arr:[],
       }
     },
-    created () {            
-       
-       
+ 
+    mounted () {            
+              
         this.$axios.get(`beneficiaryform/${this.$route.params.id}`).then(res => {
             console.log(res.data);
             this.item = res.data;
-            this.user = res.data.user.name;
+            
+            this.user = res.data.user.name || '';
             this.fms = res.data.fms;
             // this.arr = JSON.parse(res.data.survey_field);
             

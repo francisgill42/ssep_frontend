@@ -149,11 +149,11 @@
 
 
         
-<!--         
+        
         <tr>
           <th>User</th>
           <td>{{ user }}</td>
-        </tr> -->
+        </tr>
 
          <tr>
           <th>Submitted</th>
