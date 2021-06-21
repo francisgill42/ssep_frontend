@@ -1,6 +1,6 @@
 <template>
 <v-app>
-<v-navigation-drawer 
+<v-navigation-drawer
 v-model="drawer" :clipped="clipped" fixed app>
 <v-list>
 <v-list-item>
@@ -58,7 +58,7 @@ year: new Date().getFullYear(),
 clipped: false,
 fixed:false,
 drawer: true,
-menus : [],      
+menus : [],
 
 miniVariant: false,
 right: true,
@@ -84,17 +84,25 @@ get_menus () {
             { icon: 'mdi-apps', title: 'Home',to: '/' },
             { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
   ];
- 
+
+
+var user_callagent = [
+            // { icon: 'mdi-apps', title: 'Home',to: '/' },
+           { icon: 'mdi-file-document', title: 'Complains',to: '/complain' },
+  ];
+
+
   var admin_and_subadmin_menu = [
             { icon: 'mdi-apps', title: 'Home',to: '/' },
             { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
             { icon: 'mdi-account', title: 'Users',to: '/user' },
             // { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
+            { icon: 'mdi-file-document', title: 'Complains',to: '/complain' },
 
              { icon: 'mdi-file-document', title: 'Beneficiary Form',to: '/beneficiaryform' },
             { icon: 'mdi-file-document', title: 'Field Activity Form',to: '/fieldactivity' },
-            { icon: 'mdi-file-document', title: 'Callcenter Form',to: '/callcenterform' },
-            
+            { icon: 'mdi-file-document', title: 'Call Center Form',to: '/callcenterform' },
+
             { icon: 'mdi-codepen', title: 'Department',to: '/department' },
             { icon: 'mdi-codepen', title: 'Department',to: '/department' },
             { icon: 'mdi-image-area', title: 'District',to: '/district' },
@@ -107,13 +115,14 @@ get_menus () {
             { icon: 'mdi-apps', title: 'Home',to: '/' },
             { icon: 'mdi-chart-bubble', title: 'Job',to: '/job' },
             // { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
+             { icon: 'mdi-file-document', title: 'Complains',to: '/complain' },
 
             { icon: 'mdi-file-document', title: 'Beneficiary Form',to: '/beneficiaryform' },
             { icon: 'mdi-file-document', title: 'Field Activity Form',to: '/fieldactivity' },
-            { icon: 'mdi-file-document', title: 'Callcenter Form',to: '/callcenterform' },
+            { icon: 'mdi-file-document', title: 'Call Center Form',to: '/callcenterform' },
             { icon: 'mdi-codepen', title: 'Department',to: '/department' },
 
-            { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' }, 
+            { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' },
   ];
 
   var all_menu = [
@@ -122,13 +131,15 @@ get_menus () {
             { icon: 'mdi-account', title: 'Users',to: '/user' },
             // { icon: 'mdi-surround-sound', title: 'Survey',to: '/survey' },
 
+            { icon: 'mdi-file-document', title: 'Complains',to: '/complain' },
+
             { icon: 'mdi-file-document', title: 'Beneficiary Form',to: '/beneficiaryform' },
             { icon: 'mdi-file-document', title: 'Field Activity Form',to: '/fieldactivity' },
-            { icon: 'mdi-file-document', title: 'Callcenter Form',to: '/callcenterform' },
+            { icon: 'mdi-file-document', title: 'Call Center Form',to: '/callcenterform' },
             { icon: 'mdi-codepen', title: 'Department',to: '/department' },
             { icon: 'mdi-image-area', title: 'District',to: '/district' },
-            { icon: 'mdi-briefcase-check', title: 'Role',to: '/role' },    
-            { icon: 'mdi-arrange-bring-forward', title: 'Status',to: '/status' },  
+            { icon: 'mdi-briefcase-check', title: 'Role',to: '/role' },
+            { icon: 'mdi-arrange-bring-forward', title: 'Status',to: '/status' },
             { icon: 'mdi-chart-areaspline', title: 'Reports',to: '/reports' },
   ];
 
@@ -147,12 +158,16 @@ if(this.$auth.user){
       else if(this.$auth.user.role_id == 3){
         this.menus = user_and_subuser_menu;
       }
+
+       else if(this.$auth.user.role_id == 8){
+        this.menus = user_callagent;
+      }
       else{
         this.menus = [];
       }
   }
-} 
-  
+}
+
 }
 }
 }
